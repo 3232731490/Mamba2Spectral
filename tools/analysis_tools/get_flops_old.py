@@ -21,7 +21,7 @@ def parse_args():
         '--shape',
         type=int,
         nargs='+',
-        default=[512, 640],
+        default=[640, 512],
         help='input image size')
     parser.add_argument(
         '--show-arch',
@@ -74,15 +74,13 @@ def inference(args, logger):
 
     # input tensor
     # automatically generate a input tensor with the given input_shape.
-    data_batch = {'inputs': [torch.rand(3, h, w)],'inputs2': [torch.rand(3, h, w)], 'batch_samples': [None]}
+    data_batch = {'inputs': [torch.rand(3, h, w)], 'batch_samples': [None]}
     data = model.data_preprocessor(data_batch)
     result = {'ori_shape': (h, w), 'pad_shape': data['inputs'].shape[-2:]}
     outputs = get_model_complexity_info(
         model,
-        # input_shape=((3, 640, 640), (3, 640,640)),
-        input_shape = None,
-        inputs=(data['inputs'],data['inputs2']),  # the input tensor of the model
-        # inputs = None,
+        input_shape=None,
+        inputs=data['inputs'],  # the input tensor of the model
         show_table=not args.not_show_table,  # show the complexity table
         show_arch=args.show_arch)  # show the complexity arch
 

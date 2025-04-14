@@ -591,8 +591,8 @@ class SS2D_intra(nn.Module):
         x_r, z_r = xz_r.chunk(2, dim=-1)
         x_t, z_t = xz_t.chunk(2, dim=-1)
 
-        x_r = x_r.reshape(B, self.size, self.size, -1).permute(0, 3, 1, 2).contiguous()
-        x_t = x_t.reshape(B, self.size, self.size, -1).permute(0, 3, 1, 2).contiguous()
+        x_r = x_r.reshape(B, self.size[0], self.size[1], -1).permute(0, 3, 1, 2).contiguous()
+        x_t = x_t.reshape(B, self.size[0], self.size[1], -1).permute(0, 3, 1, 2).contiguous()
 
         x_r = self.conv2d_r(x_r)
         x_t = self.conv2d_t(x_t)
@@ -714,8 +714,8 @@ class SS2D_inter(nn.Module):
         x_r, z_r = xz_r.chunk(2, dim=-1)
         x_t, z_t = xz_t.chunk(2, dim=-1)
 
-        x_r = x_r.reshape(B, self.size, self.size, -1).permute(0, 3, 1, 2).contiguous()
-        x_t = x_t.reshape(B, self.size, self.size, -1).permute(0, 3, 1, 2).contiguous()
+        x_r = x_r.reshape(B, self.size[0], self.size[1], -1).permute(0, 3, 1, 2).contiguous()
+        x_t = x_t.reshape(B, self.size[0], self.size[1], -1).permute(0, 3, 1, 2).contiguous()
 
         x_r = self.conv2d_r(x_r)
         x_t = self.conv2d_t(x_t)
@@ -742,11 +742,11 @@ class PatchEmbed(nn.Module):
     """
     def __init__(self, img_size=224, patch_size=16, stride=16, in_chans=3, embed_dim=768, norm_layer=None, flatten=True):
         super().__init__()
-        img_size = tuple(map(int, to_2tuple(img_size)))
-        patch_size = tuple(map(int, to_2tuple(patch_size)))
+        # img_size = tuple(map(int, to_2tuple(img_size)))
+        # patch_size = tuple(map(int, to_2tuple(patch_size)))
         self.img_size = img_size
         self.patch_size = patch_size
-        self.grid_size = ((img_size[0] - patch_size[0]) // stride + 1, (img_size[1] - patch_size[1]) // stride + 1)
+        self.grid_size = ((img_size[0] - patch_size[0]) // stride[0] + 1, (img_size[1] - patch_size[1]) // stride[1] + 1)
         self.num_patches = self.grid_size[0] * self.grid_size[1]
         self.flatten = flatten
         self.proj = nn.Conv2d(in_chans, embed_dim, kernel_size=patch_size, stride=stride)
@@ -764,22 +764,18 @@ class PatchEmbed(nn.Module):
     
 class Reconstruct(nn.Module):
     # Patch Embedding to 2D
-    def __init__(self, H , W , patch_size=16 , stride = 16):
+    def __init__(self, size , patch_grid_size):
         super().__init__()
-        self.H = H
-        self.W = W
-        self.patch_size = patch_size
-        self.stride = stride
+        self.patch_grid_size = patch_grid_size
+        self.size = size
 
     def forward(self, x):
         B, N, C = x.shape
-        grid_h = (self.H - self.patch_size) // self.stride + 1
-        grid_w = (self.W - self.patch_size) // self.stride + 1
         # 将 B x S x D 转换为 B x D x grid_h x grid_w
-        x = x.transpose(1, 2).reshape(B, C, grid_h, grid_w)
+        x = x.transpose(1, 2).reshape(B, C, self.patch_grid_size[0] , self.patch_grid_size[1])
 
         # 使用 F.fold 或者直接插值还原到 H x W
-        x = F.interpolate(x, size=(self.H, self.W), mode='bilinear', align_corners=False)
+        x = F.interpolate(x, size=(self.size[0], self.size[1]), mode='bilinear', align_corners=False)
         return x
 
 @MODELS.register_module()
@@ -787,10 +783,11 @@ class MM_SS2D(BaseModule):
     def __init__(self, in_channels, size, cfg=None,dt_rank = "auto",d_state = 16, **kwargs):
         super().__init__()
         dt_rank = math.ceil(in_channels / 16) if dt_rank == "auto" else dt_rank
-        self.patch_embed = PatchEmbed(img_size=size, patch_size=size / 10, stride=int(size / 10), in_chans=in_channels, embed_dim=in_channels)
-        self.SSM_intra = SS2D_intra(d_model=in_channels, size=(size - int(size / 10)) // int(size / 10) + 1, d_state=d_state, cfg=cfg,dt_rank=dt_rank)
-        self.SSM_inter = SS2D_inter(d_model=in_channels, size=(size - int(size / 10)) // int(size / 10) + 1, d_state=d_state, cfg=cfg,dt_rank=dt_rank)
-        self.reconstruct = Reconstruct(H=size, W=size, patch_size=int(size / 10), stride=int(size / 10))
+        self.patch_embed = PatchEmbed(img_size=size, patch_size=(size[0] // 8, size[1] // 10), stride=(size[0] // 8, size[1] // 10), in_chans=in_channels, embed_dim=in_channels)
+        patch_grid_size = self.patch_embed.grid_size  # (grid_h, grid_w)
+        self.SSM_intra = SS2D_intra(d_model=in_channels, size=patch_grid_size, d_state=d_state, cfg=cfg,dt_rank=dt_rank)
+        self.SSM_inter = SS2D_inter(d_model=in_channels, size=patch_grid_size, d_state=d_state, cfg=cfg,dt_rank=dt_rank)
+        self.reconstruct = Reconstruct(size , patch_grid_size)
 
     def forward(self, inputs1: torch.Tensor,inputs2: torch.Tensor, **kwargs):
         # B*C*H*W --> B * S * D

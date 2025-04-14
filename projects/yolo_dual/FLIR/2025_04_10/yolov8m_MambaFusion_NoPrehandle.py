@@ -1,4 +1,4 @@
-_base_ = '/data/nl/mmyolo2spectral/mmyolo/projects/yolo_dual/datasets/FILR.py'
+_base_ = '/data/nl/Mamba2Spectral/projects/yolo_dual/datasets/FILR.py'
 
 
 model = dict(
@@ -24,7 +24,7 @@ model = dict(
         fusion_block=dict(
             type = 'MM_SS2D',
             in_channels = [128 , 256 , 512],
-            size = [160, 80, 40],
+            size = [(128,160), (64 , 80), (32 , 40)],
             bi = [False , False , True]
             # in_channels = [512],
             # size = [ 40],

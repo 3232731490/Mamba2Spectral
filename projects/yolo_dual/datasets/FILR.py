@@ -38,7 +38,7 @@ model_test_cfg = dict(
 
 # ========================Possible modified parameters========================
 # -----data related-----
-img_scale = (640, 640)  # width, height
+img_scale = (640, 512)  # width, height
 # Dataset type, this will be used to define the dataset
 dataset_type = 'DualStreamCocoDataset'
 # Batch size of a single GPU during validation
