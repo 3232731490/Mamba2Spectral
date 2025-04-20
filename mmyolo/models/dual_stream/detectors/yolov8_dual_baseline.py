@@ -50,7 +50,6 @@ class YOLODualNeckDetector(BaseDetector):
         self.pre_handle = None
         if pre_handle is not None:
             self.pre_handle = MODELS.build(pre_handle)
-
         self.backbone = MODELS.build(backbone)
 
         if neck is not None:

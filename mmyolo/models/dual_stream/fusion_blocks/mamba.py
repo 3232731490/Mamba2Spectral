@@ -774,13 +774,16 @@ class Reconstruct(nn.Module):
         # 将 B x S x D 转换为 B x D x grid_h x grid_w
         x = x.transpose(1, 2).reshape(B, C, self.patch_grid_size[0] , self.patch_grid_size[1])
 
-        # 使用 F.fold 或者直接插值还原到 H x W
+        # 直接插值还原到 H x W
         x = F.interpolate(x, size=(self.size[0], self.size[1]), mode='bilinear', align_corners=False)
         return x
 
+
+
+
 @MODELS.register_module()
 class MM_SS2D(BaseModule):
-    def __init__(self, in_channels, size, cfg=None,dt_rank = "auto",d_state = 16, **kwargs):
+    def __init__(self, in_channels, size, mamba_opreations = 2, cfg=None,dt_rank = "auto",d_state = 16, **kwargs):
         super().__init__()
         dt_rank = math.ceil(in_channels / 16) if dt_rank == "auto" else dt_rank
         self.patch_embed = PatchEmbed(img_size=size, patch_size=(size[0] // 8, size[1] // 10), stride=(size[0] // 8, size[1] // 10), in_chans=in_channels, embed_dim=in_channels)
@@ -788,12 +791,17 @@ class MM_SS2D(BaseModule):
         self.SSM_intra = SS2D_intra(d_model=in_channels, size=patch_grid_size, d_state=d_state, cfg=cfg,dt_rank=dt_rank)
         self.SSM_inter = SS2D_inter(d_model=in_channels, size=patch_grid_size, d_state=d_state, cfg=cfg,dt_rank=dt_rank)
         self.reconstruct = Reconstruct(size , patch_grid_size)
+        self.mamba_opreations = mamba_opreations
+        self.pos_embed_r = nn.Parameter(torch.zeros(1, self.patch_embed.num_patches, in_channels))
+        self.pos_embed_t = nn.Parameter(torch.zeros(1, self.patch_embed.num_patches, in_channels))
 
     def forward(self, inputs1: torch.Tensor,inputs2: torch.Tensor, **kwargs):
         # B*C*H*W --> B * S * D
-        r , t = self.patch_embed(inputs1), self.patch_embed(inputs2)
-        r , t = self.SSM_intra(r , t)
-        r , t = self.SSM_inter(r , t)
+        r , t = self.patch_embed(inputs1) + self.pos_embed_r, self.patch_embed(inputs2) + self.pos_embed_t
+
+        for i in range(self.mamba_opreations):
+            r , t = self.SSM_intra(r , t)
+            r , t = self.SSM_inter(r , t)
         # B*C*H*W <-- B * S * D
         inputs1, inputs2 = self.reconstruct(r), self.reconstruct(t)
         return inputs1, inputs2

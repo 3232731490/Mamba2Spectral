@@ -25,6 +25,7 @@ model = dict(
             type = 'MM_SS2D',
             in_channels = [128 , 256 , 512],
             size = [(128,160), (64 , 80), (32 , 40)],
+            mamba_opreations = [2 , 2 , 1],
             # d_state = [16, 32, 64],
             bi = [False , False , True]
         ),

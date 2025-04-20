@@ -12,27 +12,48 @@ model = dict(
         type = 'Identity',
     ),
     backbone=dict(
-        type='Dual_YOLOv8CSPDarknet',
-        arch='P5',
-        last_stage_out_channels=_base_.last_stage_out_channels,
-        deepen_factor=_base_.deepen_factor,
-        widen_factor=_base_.widen_factor,
+        type='GeneralDualBackbone',
+        _delete_=True,
+        stages=dict(
+            type='yoloV8CSPDarknet',
+            settings=dict(
+                in_channels=[64,128,256,512],
+                out_channels=[128,256,512,1024],
+                num_blocks=[3,6,6,3],
+                add_identity=[True, True, True, True],
+                use_spp=[False, False, False, True],
+                widen_factor=_base_.widen_factor,
+                deepen_factor=_base_.deepen_factor,
+                norm_cfg=_base_.norm_cfg,
+                act_cfg=dict(type='SiLU', inplace=True)
+            )
+        ),
+        input_channels=3,
+        stem_out_channels=64,
         norm_cfg=_base_.norm_cfg,
         act_cfg=dict(type='SiLU', inplace=True),
+        deepen_factor=_base_.deepen_factor,
+        widen_factor=_base_.widen_factor,
         out_indices= (2, 3, 4),
         fusion_indices=(2,3, 4,),
         fusion_block=dict(
-            type = 'MM_SS2D',
-            in_channels = [128 , 256 , 512],
-            size = [(128,160), (64 , 80), (32 , 40)],
-            # d_state = [16, 32, 64],
-            bi = [False , False , True]
-        ),
+                type = 'MM_SS2D',
+                in_channels = [128 , 256 , 512],
+                size = [(128,160), (64 , 80), (32 , 40)],
+                mamba_opreations = [2 , 2 , 1],
+                # d_state = [16, 32, 64],
+                bi = [False , False , True]
+            ),
         fusion_module = dict(type = 'WTConv' , 
-                             in_channels = [128 , 256 , 512],
-                             kernel_size=3,
-                             wt_levels=3
-                             ),
+                                in_channels = [128 , 256 , 512],
+                                kernel_size=3,
+                                wt_levels=3
+                                ),
+        head_input_module = dict(type = 'WTConv' , 
+                                in_channels = [256,512,1024],
+                                kernel_size=3,
+                                wt_levels=3
+                                ),
     ),
     neck=dict(
         type='YOLOv8PAFPN',

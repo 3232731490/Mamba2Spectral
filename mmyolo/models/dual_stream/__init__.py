@@ -6,7 +6,7 @@ from .fusion_blocks.mamba import MM_SS2D
 from .fusion_modules import *
 
 from .backbones.dual_backbone import Dual_YOLOv8CSPDarknet
-from .backbones.dual_backbone2 import Dual_YOLOv8CSPDarknet2
+from .backbones.general_backbone import GeneralDualBackbone
 
 
 from .metrics.kaist_metircs import KAISTMissrateMetric,GlareKAISTMissrateMetric
@@ -15,9 +15,10 @@ from .metrics.smod_metric import SMODMissrateMetric
 
 from .rgb_prehandle.identity import Identity
 
+
 __all__ = ['YOLODualNeckDetector',
            'BaseFusion' , 'Add','BaseFusion2',
-           'Dual_YOLOv8CSPDarknet','PConv2d','Dual_YOLOv8CSPDarknet2',
+           'Dual_YOLOv8CSPDarknet','PConv2d',
            'KAISTMissrateMetric','GlareKAISTMissrateMetric','SMODMissrateMetric','KAISTMissrateMetric_class1',
-           'Identity','MM_SS2D'
+           'Identity','MM_SS2D','GeneralDualBackbone'
            ]

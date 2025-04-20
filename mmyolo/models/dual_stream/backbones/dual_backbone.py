@@ -80,6 +80,7 @@ class Dual_YOLOv8CSPDarknet(BaseModule, metaclass=ABCMeta):
                  widen_factor: float = 1.0,
                  input_channels: int = 3,
                  out_indices: Tuple[int] = (2, 3, 4),
+                 fusion_indices: Tuple[int] = (2, 3, 4),
                  frozen_stages: int = -1,
                  norm_cfg: ConfigType = dict(
                      type='BN', momentum=0.03, eps=0.001),
@@ -99,6 +100,7 @@ class Dual_YOLOv8CSPDarknet(BaseModule, metaclass=ABCMeta):
         self.arch_setting = self.arch_settings[arch]
         self.input_channels = input_channels
         self.out_indices = out_indices
+        self.fusion_indices = fusion_indices
         self.frozen_stages = frozen_stages
         self.widen_factor = widen_factor
         self.deepen_factor = deepen_factor
@@ -119,6 +121,7 @@ class Dual_YOLOv8CSPDarknet(BaseModule, metaclass=ABCMeta):
             self.fusion_module['in_channels'] = [make_divisible(x, self.widen_factor) for x in self.fusion_module['in_channels']]
             self.fusion_module2['in_channels'] = [make_divisible(x, self.widen_factor) * 2 for x in self.fusion_module2['in_channels']]
         i = 0
+        i1 = 0
         fusion_block_configs = self.generate_configs(self.fusion_block)
         fusion_module_configs = self.generate_configs(self.fusion_module)
         fusion_module_configs2 = self.generate_configs(self.fusion_module2)
@@ -136,9 +139,11 @@ class Dual_YOLOv8CSPDarknet(BaseModule, metaclass=ABCMeta):
             self.add_module(f'stage{idx + 1}_1', nn.Sequential(*stage))
             self.add_module(f'stage{idx + 1}_2', nn.Sequential(*stage2))
             self.layers.append(f'stage{idx + 1}')
-            if idx + 1 in out_indices:
-                self.add_module(f'fusion_block{idx+1}',self.build_fusion_layer(fusion_block_configs[i]))
+            if idx + 1 in fusion_indices:
+                self.add_module(f'fusion_block{idx+1}',self.build_fusion_layer(fusion_block_configs[i1]))
                 self.add_module(f'fusion_module{idx+1}_1',self.build_fusion_module_layer(fusion_module_configs[i]))
+                i1+=1
+            if idx + 1 in out_indices:
                 self.add_module(f'fusion_module{idx+1}_2',self.build_fusion_module_layer(fusion_module_configs2[i]))
                 i+=1
 
@@ -231,7 +236,7 @@ class Dual_YOLOv8CSPDarknet(BaseModule, metaclass=ABCMeta):
         """Forward batch_inputs from the data_preprocessor."""
         outs = []
         for i, layer_name in enumerate(self.layers):
-            if i in self.out_indices:
+            if i in self.fusion_indices:
                 fusion_block = getattr(self,f'fusion_block{i}')
                 fusion_module = getattr(self,f'fusion_module{i}_1')
                 f_out = fusion_block(inputs1,inputs2)
