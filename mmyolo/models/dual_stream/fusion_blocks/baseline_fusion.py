@@ -31,7 +31,7 @@ class BaseFusion2(BaseModule):
 class BaseFusion(BaseModule):
     def __init__(
         self,
-        in_channels : int = 256, 
+        in_channels: int,
     ) -> None:
         super().__init__()
         # self.block1 = nn.Conv2d(in_channels * 2 , in_channels , 1, 1,0)
@@ -42,6 +42,5 @@ class BaseFusion(BaseModule):
         # ir_fea = self.block1(torch.cat([input1,input2] , dim = 1))
         # vis_fea = self.block2(torch.cat([input2,input1] , dim = 1))
         """Forward function."""
-        fusion_fea = input1 + input2
-        return [fusion_fea]
+        return input1 + input2
 

@@ -14,7 +14,7 @@ classes = ('car', 'truck', 'bus', 'van', 'freight_car')
 metainfo = dict(classes=classes, palette=[(20, 220, 60),(119, 11, 32), 
                                           (0, 0, 142),(106, 0, 228),(0, 60, 100)])
 
-train_batch_size_per_gpu = 8
+train_batch_size_per_gpu = 16
 # Worker to pre-fetch data for each single GPU during training
 train_num_workers = 8
 # persistent_workers must be False if num_workers is 0
@@ -38,7 +38,7 @@ model_test_cfg = dict(
 
 # ========================Possible modified parameters========================
 # -----data related-----
-img_scale = (640, 640)  # width, height
+img_scale = (640, 512)  # width, height
 # Dataset type, this will be used to define the dataset
 dataset_type = 'DualStreamCocoDataset'
 # Batch size of a single GPU during validation

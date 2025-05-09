@@ -38,7 +38,6 @@ class YOLODualNeckDetector(BaseDetector):
                  backbone: ConfigType,
                  neck: ConfigType,
                  bbox_head: ConfigType,
-                 pre_handle: ConfigType = None,
                  train_cfg: OptConfigType = None,
                  test_cfg: OptConfigType = None,
                  data_preprocessor: OptConfigType = None,
@@ -46,10 +45,7 @@ class YOLODualNeckDetector(BaseDetector):
                  use_syncbn: bool = True):
         super().__init__(
             data_preprocessor=data_preprocessor, init_cfg=init_cfg)
-        
-        self.pre_handle = None
-        if pre_handle is not None:
-            self.pre_handle = MODELS.build(pre_handle)
+        self.fusion_flag = backbone.fusion_flag
         self.backbone = MODELS.build(backbone)
 
         if neck is not None:
@@ -170,14 +166,16 @@ class YOLODualNeckDetector(BaseDetector):
             tuple[Tensor]: Tuple of feature maps from neck. Each feature map
             has shape (bs, dim, H, W).
         """
-        if self.pre_handle is not None:
-            batch_inputs = self.pre_handle(batch_inputs)
-
-        z = self.backbone(batch_inputs,batch_inputs2)
-
-        if self.with_neck:
-            z = self.neck(z)
-            
+        if self.fusion_flag:
+            z = self.backbone(batch_inputs,batch_inputs2)
+            if self.with_neck:
+                z = self.neck(z)
+        else:
+            output1 , output2 = self.backbone(batch_inputs,batch_inputs2)
+            if self.with_neck:
+                z = self.neck(output1,output2)
+            else:
+                z = [x + y for x, y in zip(output1, output2)]
         return z
 
     def _forward(self,

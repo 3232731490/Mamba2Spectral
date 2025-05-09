@@ -781,12 +781,12 @@ class Reconstruct(nn.Module):
 
 
 
-@MODELS.register_module()
+# @MODELS.register_module()
 class MM_SS2D(BaseModule):
-    def __init__(self, in_channels, size, mamba_opreations = 2, cfg=None,dt_rank = "auto",d_state = 16, **kwargs):
+    def __init__(self, in_channels, size, mamba_opreations = 1, cfg=None,dt_rank = "auto",d_state = 16, **kwargs):
         super().__init__()
         dt_rank = math.ceil(in_channels / 16) if dt_rank == "auto" else dt_rank
-        self.patch_embed = PatchEmbed(img_size=size, patch_size=(size[0] // 8, size[1] // 10), stride=(size[0] // 8, size[1] // 10), in_chans=in_channels, embed_dim=in_channels)
+        self.patch_embed = PatchEmbed(img_size=size, patch_size=(size[0] // 8, size[1] // 8), stride=(size[0] // 8, size[1] // 8), in_chans=in_channels, embed_dim=in_channels)
         patch_grid_size = self.patch_embed.grid_size  # (grid_h, grid_w)
         self.SSM_intra = SS2D_intra(d_model=in_channels, size=patch_grid_size, d_state=d_state, cfg=cfg,dt_rank=dt_rank)
         self.SSM_inter = SS2D_inter(d_model=in_channels, size=patch_grid_size, d_state=d_state, cfg=cfg,dt_rank=dt_rank)

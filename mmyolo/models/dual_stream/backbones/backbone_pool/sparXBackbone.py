@@ -11,6 +11,17 @@ from timm.data import IMAGENET_DEFAULT_STD, IMAGENET_DEFAULT_MEAN
 
 import selective_scan_cuda_oflex
 
+
+from typing import List, Tuple, Union
+from abc import ABCMeta
+from mmdet.utils import ConfigType, OptMultiConfig
+
+from mmengine.model import BaseModule
+
+from mmyolo.registry import MODELS
+from mmyolo.models.utils import make_divisible, make_round
+from mmyolo.models.backbones import BaseBackbone
+
 try:
     from csm_triton import CrossScanTriton, CrossMergeTriton
 except:
@@ -499,356 +510,6 @@ class SparXVSSBlock(nn.Module):
             return self._forward(input, shortcut)
 
 
-# class SparXMamba(nn.Module):
-#     def __init__(
-#         self,
-#         in_chans=3, 
-#         num_classes=1000, 
-#         depths=[2, 2, 5, 2], 
-#         dims=[96, 192, 384, 768],
-#         ssm_d_state=1,
-#         ssm_ratio=[2, 2, 2, 2],
-#         ssm_dt_rank="auto",
-#         ssm_act_layer=nn.SiLU,        
-#         ssm_conv=5,
-#         ssm_drop_rate=0.0, 
-#         ssm_init="v0",
-#         mlp_ratio=[4, 4, 4, 4],
-#         mlp_act_layer=nn.GELU,
-#         mlp_drop_rate=0.0,
-#         ls_init_value=[None, None, 1, 1],
-#         stem_type='v1',
-#         drop_path_rate=0,
-#         norm_layer=GroupNorm,
-#         use_checkpoint=[0, 0, 0, 0],
-#         dense_config=None,
-#         sr_ratio=[8, 4, 2, 1],
-#         **kwargs,
-#     ):
-        
-#         super().__init__()
-        
-#         self.num_classes = num_classes
-#         self.num_layers = len(depths)
-        
-#         if isinstance(dims, int):
-#             dims = [int(dims * 2 ** i_layer) for i_layer in range(self.num_layers)]
-#         self.num_features = dims[-1]
-#         self.dims = dims
-#         dpr = [x.item() for x in torch.linspace(0, drop_path_rate, sum(depths))]  # stochastic depth decay rule
-        
-#         dense_idx = []
-#         for i in range(4):
-#             dense_step = dense_config['dense_step'][i]
-#             dense_start = dense_config['dense_start'][i]
-#             d_idx = [i for i in range(depths[i] - 1, dense_start - 1, -dense_step)][::-1]
-#             dense_idx.append(d_idx)
-
-#         dense_config.update(dense_idx=dense_idx)
-#         self.dense_config = dense_config
-#         self.cross_stage = dense_config['cross_stage']
-        
-#         self.patch_embed = nn.Sequential(
-#             nn.Conv2d(in_chans, dims[0]//2, kernel_size=3, stride=2, padding=1, bias=False),
-#             nn.BatchNorm2d(dims[0]//2),
-#             nn.GELU(),
-#             nn.Conv2d(dims[0]//2, dims[0], kernel_size=3, stride=2, padding=1, bias=False),
-#             nn.BatchNorm2d(dims[0])
-#         )
-        
-#         if stem_type == 'v2':
-#             self.patch_embed = nn.Sequential(
-#                 nn.Conv2d(in_chans, dims[0]//2, kernel_size=3, stride=2, padding=1, bias=False),
-#                 nn.BatchNorm2d(dims[0]//2),
-#                 nn.GELU(),        
-#                 nn.Conv2d(dims[0]//2, dims[0]//2, kernel_size=3, stride=1, padding=1, bias=False),
-#                 nn.BatchNorm2d(dims[0]//2),
-#                 nn.GELU(),
-#                 nn.Conv2d(dims[0]//2, dims[0], kernel_size=3, stride=2, padding=1, bias=False),
-#                 nn.BatchNorm2d(dims[0])
-#             )
-
-        
-#         self.layers = nn.ModuleList()
-        
-#         for i_layer in range(self.num_layers):
-       
-#             downsample = nn.Sequential(
-#                 nn.Conv2d(self.dims[i_layer], self.dims[i_layer+1], kernel_size=3, stride=2, padding=1, bias=False),
-#                 nn.BatchNorm2d(self.dims[i_layer+1]),
-#             ) if (i_layer < self.num_layers - 1) else nn.Identity()
-
-#             self.layers.append(self._make_layer(
-#                 dim = self.dims[i_layer],
-#                 drop_path = dpr[sum(depths[:i_layer]):sum(depths[:i_layer + 1])],
-#                 use_checkpoint=use_checkpoint[i_layer],
-#                 norm_layer=norm_layer,
-#                 downsample=downsample,
-#                 ssm_d_state=ssm_d_state,
-#                 ssm_ratio=ssm_ratio[i_layer],
-#                 ssm_dt_rank=ssm_dt_rank,
-#                 ssm_act_layer=ssm_act_layer,
-#                 ssm_conv=ssm_conv,
-#                 ssm_drop_rate=ssm_drop_rate,
-#                 ssm_init=ssm_init,
-#                 mlp_ratio=mlp_ratio[i_layer],
-#                 mlp_act_layer=mlp_act_layer,
-#                 mlp_drop_rate=mlp_drop_rate,
-#                 ls_init_value=ls_init_value[i_layer],
-#                 max_dense_depth=dense_config["max_dense_depth"][i_layer],
-#                 dense_step=dense_config["dense_step"][i_layer],
-#                 dense_idx=dense_config["dense_idx"][i_layer],
-#                 sr_ratio=sr_ratio[i_layer],
-#                 cross_stage=self.cross_stage[i_layer],
-#                 **kwargs,
-#             ))
-
-#         self.classifier = nn.Sequential(
-#             norm_layer(self.num_features),
-#             nn.AdaptiveAvgPool2d(1),
-#             nn.Flatten(1),
-#             nn.Linear(self.num_features, num_classes), 
-#         )
-
-#         self.apply(self._init_weights)
-
-#     def _init_weights(self, m: nn.Module):
-#         if isinstance(m, (nn.Linear, nn.Conv2d)):
-#             nn.init.trunc_normal_(m.weight, std=0.02)
-#             if m.bias is not None:
-#                 nn.init.zeros_(m.bias)
-#         elif isinstance(m, (nn.LayerNorm, nn.BatchNorm2d, nn.GroupNorm)):
-#             nn.init.ones_(m.weight)
-#             nn.init.zeros_(m.bias)
-
-#     @staticmethod
-#     def _make_layer(
-#         dim=96, 
-#         drop_path=[0, 0], 
-#         use_checkpoint=False, 
-#         norm_layer=nn.LayerNorm,
-#         downsample=nn.Identity(),
-#         ssm_d_state=16,
-#         ssm_ratio=1,
-#         ssm_dt_rank="auto",       
-#         ssm_act_layer=nn.SiLU,
-#         ssm_conv=3,
-#         ssm_drop_rate=0.0, 
-#         ssm_init="v0",
-#         mlp_ratio=4.0,
-#         mlp_act_layer=nn.GELU,
-#         mlp_drop_rate=0.0,
-#         ls_init_value=None,
-#         max_dense_depth=None,
-#         dense_step=None,
-#         dense_idx=None,
-#         sr_ratio=1,
-#         cross_stage=False,
-#         **kwargs,
-#     ):
-
-#         depth = len(drop_path)
-
-#         blocks = []
-#         for d in range(depth):
-
-#             if d in dense_idx:
-#                 is_cross_layer = True
-#                 dense_layer_idx = d
-#             else:
-#                 is_cross_layer = False
-#                 dense_layer_idx = None
-            
-#             blocks.append(SparXVSSBlock(
-#                 hidden_dim=dim, 
-#                 drop_path=drop_path[d],
-#                 norm_layer=norm_layer,
-#                 ssm_d_state=ssm_d_state,
-#                 ssm_ratio=ssm_ratio,
-#                 ssm_dt_rank=ssm_dt_rank,
-#                 ssm_act_layer=ssm_act_layer,
-#                 ssm_conv=ssm_conv,
-#                 ssm_drop_rate=ssm_drop_rate,
-#                 ssm_init=ssm_init,
-#                 mlp_ratio=mlp_ratio,
-#                 mlp_act_layer=mlp_act_layer,
-#                 mlp_drop_rate=mlp_drop_rate,
-#                 ls_init_value=ls_init_value,
-#                 use_checkpoint=(d<use_checkpoint),
-#                 layer_idx=d,
-#                 max_dense_depth=max_dense_depth,
-#                 dense_step=dense_step,
-#                 is_cross_layer=is_cross_layer,
-#                 stage_dense_idx=dense_idx,
-#                 dense_layer_idx=dense_layer_idx,
-#                 sr_ratio=sr_ratio,
-#                 cross_stage=cross_stage,
-#             ))
-        
-#         return nn.Sequential(OrderedDict(
-#             blocks=nn.Sequential(*blocks,),
-#             downsample=downsample,
-#         ))
-
-    
-#     def layer_forward(self, layers, x, s, d_cfg):
-        
-#         dense_step, dense_start, max_dense_depth, dense_idx, cross_stage = d_cfg
-
-#         inner_list = []
-#         cross_list = []
-        
-#         if s is not None:
-#             if cross_stage: 
-#                 cross_list.append(s)
-#             else: 
-#                 inner_list.append(s)
-            
-#         for idx, layer in enumerate(layers.blocks):
-#             if idx in dense_idx:  
-#                 input = (x, inner_list)
-#                 if len(cross_list) > 0:
-#                     inner_list.extend(cross_list)
-#                 x, s = layer(input)
-#                 cross_list.append(s)
-#                 inner_list = []
-#             else:
-#                 input = (x, None)
-#                 x, s = layer(input)
-#                 inner_list.append(s)
-                
-#             if (max_dense_depth is not None) and len(cross_list) > max_dense_depth:
-#                 cross_list = cross_list[-max_dense_depth:]
-              
-#         x = layers.downsample(x)
-
-#         return x
-    
-    
-#     def forward(self, x):
-        
-#         d_cfg = self.dense_config
-#         x = self.patch_embed(x)
-#         s = None
-        
-#         for idx, layer in enumerate(self.layers):
-            
-#             dense_step = d_cfg['dense_step'][idx]
-#             dense_start = d_cfg['dense_start'][idx]
-#             max_dense_depth = d_cfg['max_dense_depth'][idx]
-#             dense_idx = d_cfg['dense_idx'][idx]
-#             cross_stage = d_cfg['cross_stage'][idx]
-#             _d_cfg = (dense_step, dense_start, max_dense_depth, dense_idx, cross_stage)
-#             x = self.layer_forward(layer, x, s, _d_cfg)
-#             s = x
-            
-#         x = self.classifier(x)
-        
-#         return x
-
-
-# def _cfg(url=None, **kwargs):
-#     return {
-#         'url': url,
-#         'num_classes': 1000,
-#         'input_size': (3, 224, 224),
-#         'crop_pct': 0.9,
-#         'interpolation': 'bicubic',  # 'bilinear' or 'bicubic'
-#         'mean': IMAGENET_DEFAULT_MEAN,
-#         'std': IMAGENET_DEFAULT_STD,
-#         'classifier': 'classifier',
-#         **kwargs,
-#     }   
-
-
-# def sparx_mamba_t(pretrained=False, **kwargs):
-    
-#     dense_config = {
-#         'dense_step': [1, 1, 2, 1],
-#         'dense_start': [100, 1, 0, 0],
-#         'max_dense_depth': [100, 100, 3, 100],
-#         'cross_stage': [False, False, False, False],
-#     }
-    
-#     model =  SparXMamba(depths=[2, 2, 7, 2],
-#                         dims=[96, 192, 320, 512],
-#                         sr_ratio=[8, 4, 2, 1],
-#                         dense_config=dense_config,
-#                         **kwargs)
-    
-#     model.default_cfg = _cfg(crop_pct=0.9)
-    
-#     if pretrained:
-#         pretrained = 'https://github.com/LMMMEng/SparX/releases/download/v1/sparx_mamba_tiny_in1k.pth'
-#         state_dict = torch.hub.load_state_dict_from_url(url=pretrained, map_location="cpu", check_hash=True)
-#         model.load_state_dict(state_dict)
-    
-#     return model
-
-
-# def sparx_mamba_s(pretrained=False, **kwargs):
-    
-#     dense_config = {
-#         'dense_step': [1, 1, 3, 1],
-#         'dense_start': [100, 1, 0, 0],
-#         'max_dense_depth': [100, 100, 3, 100],
-#         'cross_stage': [False, False, False, False],
-#     }
-    
-#     model =  SparXMamba(depths=[2, 2, 17, 2],
-#                         dims=[96, 192, 328, 544],
-#                         sr_ratio=[8, 4, 2, 1],
-#                         stem_type='v2',
-#                         dense_config=dense_config,
-#                         **kwargs)
-    
-#     model.default_cfg = _cfg(crop_pct=0.95)
-    
-#     if pretrained:
-#         pretrained = 'https://github.com/LMMMEng/SparX/releases/download/v1/sparx_mamba_small_in1k.pth'
-#         state_dict = torch.hub.load_state_dict_from_url(url=pretrained, map_location="cpu", check_hash=True)
-#         model.load_state_dict(state_dict)
-    
-#     return model
-
-
-# def sparx_mamba_b(pretrained=False, **kwargs):
-    
-#     dense_config = {
-#         'dense_step': [1, 1, 3, 2],
-#         'dense_start': [100, 1, 0, 2],
-#         'max_dense_depth': [100, 100, 3, 100],
-#         'cross_stage': [False, False, False, False],
-#     }
-    
-#     model =  SparXMamba(depths=[2, 2, 21, 3],
-#                         dims=[120, 240, 396, 636],
-#                         sr_ratio=[8, 4, 2, 1],
-#                         stem_type='v2',
-#                         dense_config=dense_config,
-#                         **kwargs)
-    
-#     model.default_cfg = _cfg(crop_pct=0.95)
-    
-#     if pretrained:
-#         pretrained = 'https://github.com/LMMMEng/SparX/releases/download/v1/sparx_mamba_base_in1k.pth'
-#         state_dict = torch.hub.load_state_dict_from_url(url=pretrained, map_location="cpu", check_hash=True)
-#         model.load_state_dict(state_dict)
-    
-#     return model
-
-from typing import List, Tuple, Union
-from abc import ABCMeta
-import torch
-import torch.nn as nn
-from mmdet.utils import ConfigType, OptMultiConfig
-
-from mmengine.model import BaseModule
-
-from mmyolo.registry import MODELS
-from mmyolo.models.utils import make_divisible, make_round
-from mmyolo.models.backbones import BaseBackbone
-
 
 class SparXMambaStage(BaseModule):
     def __init__(self,
@@ -928,15 +589,15 @@ class SparXMambaStage(BaseModule):
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        if self.patch_embed is not None:
-            x = self.patch_embed(x)
-        else:
-            x = self.downsample(x)
+        # if self.patch_embed is not None:
+        #     x = self.patch_embed(x)
+        # else:
 
         inner_list = []
         cross_list = []
         
         if not self.is_first_stage:
+            x = self.downsample(x)
             if self.cross_stage: 
                 cross_list.append(x)
             else: 

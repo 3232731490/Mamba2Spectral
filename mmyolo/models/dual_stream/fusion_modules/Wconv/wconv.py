@@ -47,12 +47,10 @@ class WTConv2d(nn.Module):
 
         for i in range(self.wt_levels):
             curr_shape = curr_x_ll.shape
-            print("curr_shape shape is " , curr_shape)
             shapes_in_levels.append(curr_shape)
             if (curr_shape[2] % 2 > 0) or (curr_shape[3] % 2 > 0):
                 curr_pads = (0, curr_shape[3] % 2, 0, curr_shape[2] % 2)
                 curr_x_ll = F.pad(curr_x_ll, curr_pads)
-            print("filter shape is" , self.wt_filter.shape)
             curr_x = wavelet.wavelet_transform(curr_x_ll, self.wt_filter)
             curr_x_ll = curr_x[:,:,0,:,:]
             
@@ -109,7 +107,6 @@ class WTConv(nn.Module):
 
     def forward(self, inputs1:torch.Tensor,inputs2:torch.Tensor):
         x = torch.cat([inputs1,inputs2],dim = 1)
-        print("x shape is ", x.shape)
         x = self.wtconv(x)
         x = self.conv(x)
         return x
