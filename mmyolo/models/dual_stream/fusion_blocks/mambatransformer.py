@@ -777,7 +777,6 @@ class MambaTransformerBlock(BaseModule):
         self,
         in_channels: int = 256,
         mamba_size: Tuple[int, int] = (80, 80), 
-        mamba_operations: int = 1,
         mamba_dt_rank: Any = "auto", 
         mamba_d_state: Any = "auto", 
         mamba_ssm_ratio: float = 2.0, # Added for SS2D blocks
@@ -796,15 +795,6 @@ class MambaTransformerBlock(BaseModule):
     ):
         super().__init__(init_cfg=init_cfg)
 
-        # self.mamba_fusion_stage = MM_SS2D(
-        #     in_channels=in_channels,
-        #     size=mamba_size,
-        #     mamba_operations=mamba_operations,
-        #     dt_rank=mamba_dt_rank,
-        #     d_state=mamba_d_state,
-        #     ssm_ratio=mamba_ssm_ratio, # Pass to MM_SS2D for its SS2D blocks
-        #     bi=mamba_bi               # Pass to MM_SS2D for its SS2D blocks
-        # )
         self.patch_embed = PatchEmbed(img_size=mamba_size, patch_size=(mamba_size[0] // 8, mamba_size[1] // 8), stride=(mamba_size[0] // 8, mamba_size[1] // 8), in_chans=in_channels, embed_dim=in_channels)
         patch_grid_size = self.patch_embed.grid_size  # (grid_h, grid_w)
         self.mamba_fusion_stage = SS2D_intra(

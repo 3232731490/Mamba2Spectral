@@ -14,20 +14,6 @@ from mmyolo.models.utils import make_divisible, make_round
 from mmyolo.registry import MODELS
 
 @MODELS.register_module()
-class BaseFusion2(BaseModule):
-    def __init__(
-        self,
-    ) -> None:
-        super().__init__()
-        
-    def forward(self, inputs1: Tuple[Tensor],inputs2: Tuple[Tensor]):
-        """Forward function."""
-        outs = []
-        for i , (ir , rgb) in enumerate(zip(inputs1 , inputs2)):
-            outs.append(ir + rgb)
-        return tuple(outs)
-    
-@MODELS.register_module()
 class BaseFusion(BaseModule):
     def __init__(
         self,
@@ -43,4 +29,22 @@ class BaseFusion(BaseModule):
         # vis_fea = self.block2(torch.cat([input2,input1] , dim = 1))
         """Forward function."""
         return input1 + input2
+
+    
+@MODELS.register_module()
+class BaseFusion2(BaseModule):
+    def __init__(
+        self,
+        in_channels: int,
+    ) -> None:
+        super().__init__()
+        # self.block1 = nn.Conv2d(in_channels * 2 , in_channels , 1, 1,0)
+        # self.block2 = nn.Conv2d(in_channels * 2 , in_channels , 1, 1,0)
+        # self.fusion_blocks = nn.Sequential(*blocks)
+        
+    def forward(self, input1: Tuple[Tensor],input2: Tuple[Tensor]):
+        # ir_fea = self.block1(torch.cat([input1,input2] , dim = 1))
+        # vis_fea = self.block2(torch.cat([input2,input1] , dim = 1))
+        """Forward function."""
+        return [input1 + input2]
 
