@@ -819,7 +819,7 @@ class MambaTransformerBlock(BaseModule):
             tf_attn_pdrop=transformer_attn_pdrop,
             tf_resid_pdrop=transformer_resid_pdrop
         )
-
+        self.fusion = transformer_fusion
         self.reconstruct = Reconstruct(mamba_size , patch_grid_size)
         self.pos_embed_r = nn.Parameter(torch.zeros(1, self.patch_embed.num_patches, in_channels))
         self.pos_embed_t = nn.Parameter(torch.zeros(1, self.patch_embed.num_patches, in_channels))
@@ -850,7 +850,9 @@ class MambaTransformerBlock(BaseModule):
         # Stage 2: Transformer Fusion
         r , t = self.transformer_fusion_stage(r, t)
         r, t = self.reconstruct(r), self.reconstruct(t)
-        return self.out_fusion_module(r + inputs1, t + inputs2)
+        if self.fusion:
+            return self.out_fusion_module(r + inputs1, t + inputs2)
+        return [r + inputs1, t + inputs2]
 
 if __name__ == '__main__':
     bs = 2

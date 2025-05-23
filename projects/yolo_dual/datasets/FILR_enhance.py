@@ -2,7 +2,7 @@ _base_ = '/data/nl/mmyolo2spectral/mmyolo/configs/yolov8/yolov8_s_syncbn_fast_8x
 
 # ========================Frequently modified parameters======================
 # -----data related-----
-data_root = '/data/nl/mmdet2spectral/data/FLIR'  # Root path of data
+data_root = '/data/nl/mmdet2spectral/data/FLIR/'  # Root path of data
 # Path of train annotation file
 train_ann_file = 'train_class3.json'
 train_data_prefix = 'train/enhance/rgb'  # Prefix of train image path

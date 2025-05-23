@@ -1,7 +1,6 @@
 # 定义配置文件和数据文件的数组
 configs=(
-  projects/yolo_dual/FLIR/2025_05_15/yolov8_Backbone.py
-  projects/yolo_dual/FLIR/2025_05_15/yolov8_Backbone_enhance.py
+  projects/yolo_dual/M3FD/2025_05_19/yolov8_mambatransformer_enhance_overlock.py
 )
 
 # 遍历数组并运行每个 Python 脚本

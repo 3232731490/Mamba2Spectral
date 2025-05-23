@@ -1,0 +1,36 @@
+/data/nl/miniconda3/envs/SparX/lib/python3.10/site-packages/albumentations/__init__.py:28: UserWarning: A new version of Albumentations is available: '2.0.7' (you have '2.0.5'). Upgrade using: pip install -U albumentations. To disable automatic update checks, set the environment variable NO_ALBUMENTATIONS_UPDATE to 1.
+  check_for_updates()
+Traceback (most recent call last):
+  File "/data/nl/Mamba2Spectral/tools/train.py", line 13, in <module>
+    from mmyolo.utils import is_metainfo_lower
+  File "/data/nl/Mamba2Spectral/mmyolo/utils/__init__.py", line 3, in <module>
+    from .misc import is_metainfo_lower, switch_to_deploy
+  File "/data/nl/Mamba2Spectral/mmyolo/utils/misc.py", line 10, in <module>
+    from mmyolo.models import RepVGGBlock
+  File "/data/nl/Mamba2Spectral/mmyolo/models/__init__.py", line 2, in <module>
+    from .backbones import *  # noqa: F401,F403
+  File "/data/nl/Mamba2Spectral/mmyolo/models/backbones/__init__.py", line 3, in <module>
+    from .csp_darknet import YOLOv5CSPDarknet, YOLOv8CSPDarknet, YOLOXCSPDarknet
+  File "/data/nl/Mamba2Spectral/mmyolo/models/backbones/csp_darknet.py", line 7, in <module>
+    from mmdet.models.backbones.csp_darknet import CSPLayer, Focus
+  File "/data/nl/miniconda3/envs/SparX/lib/python3.10/site-packages/mmdet/models/__init__.py", line 13, in <module>
+    from .seg_heads import *  # noqa: F401,F403
+  File "/data/nl/miniconda3/envs/SparX/lib/python3.10/site-packages/mmdet/models/seg_heads/__init__.py", line 3, in <module>
+    from .panoptic_fusion_heads import *  # noqa: F401,F403
+  File "/data/nl/miniconda3/envs/SparX/lib/python3.10/site-packages/mmdet/models/seg_heads/panoptic_fusion_heads/__init__.py", line 4, in <module>
+    from .heuristic_fusion_head import HeuristicFusionHead  # noqa: F401,F403
+  File "/data/nl/miniconda3/envs/SparX/lib/python3.10/site-packages/mmdet/models/seg_heads/panoptic_fusion_heads/heuristic_fusion_head.py", line 8, in <module>
+    from mmdet.evaluation.functional import INSTANCE_OFFSET
+  File "/data/nl/miniconda3/envs/SparX/lib/python3.10/site-packages/mmdet/evaluation/__init__.py", line 4, in <module>
+    from .metrics import *  # noqa: F401,F403
+  File "/data/nl/miniconda3/envs/SparX/lib/python3.10/site-packages/mmdet/evaluation/metrics/__init__.py", line 5, in <module>
+    from .coco_metric import CocoMetric
+  File "/data/nl/miniconda3/envs/SparX/lib/python3.10/site-packages/mmdet/evaluation/metrics/coco_metric.py", line 16, in <module>
+    from mmdet.datasets.api_wrappers import COCO, COCOeval, COCOevalMP
+  File "/data/nl/miniconda3/envs/SparX/lib/python3.10/site-packages/mmdet/datasets/__init__.py", line 36, in <module>
+    from .youtube_vis_dataset import YouTubeVISDataset
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 674, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 568, in module_from_spec
+KeyboardInterrupt
