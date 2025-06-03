@@ -1,6 +1,6 @@
-_base_ = '/data/nl/Mamba2Spectral/projects/yolo_dual/datasets/M3FD_enhance.py'
+_base_ = '/data/nl/Mamba2Spectral/projects/yolo_dual/datasets/FILR_enhance.py'
 
-_base_.max_epochs = 400
+
 model = dict(
     type='YOLODualNeckDetector',
     data_preprocessor=dict(
@@ -11,7 +11,7 @@ model = dict(
     backbone=dict(
         type='GeneralDualBackbone',
         _delete_=True,
-        fusion_flag= True,
+        fusion_flag= False,
         stages=dict(
             type='yoloV8CSPDarknet',
             settings=dict(
@@ -31,7 +31,7 @@ model = dict(
         act_cfg=dict(type='SiLU', inplace=True),
         deepen_factor=_base_.deepen_factor,
         widen_factor=_base_.widen_factor,
-        out_indices= (2, 3, 4),
+        out_indices= (1,2, 3, 4),
         fusion_indices=(2,3, 4,),
         stem_block=dict(
             type = 'ConvStem',
@@ -55,18 +55,33 @@ model = dict(
                 transformer_fusion = True,
                 transformer_mod_weight = True
         ),
-        fusion_module = dict(type = 'OverLoCKFusionModule',in_channels = [128,256,512],),
-        head_input_module = dict(type = 'OverLoCKFusionModule',in_channels = [256,512,1024],),
+        fusion_module = dict(type = 'WTConv' , 
+                                in_channels = [128 , 256 , 512],
+                                kernel_size=3,
+                                wt_levels=3
+                                ),
+        head_input_module = dict(type = 'WTConv' , 
+                                in_channels = [256,512,1024],
+                                kernel_size=3,
+                                wt_levels=3
+                                ),
     ),
     neck=dict(
-        type='YOLOv8PAFPN',
+        _delete_=True,
+        type='GoldYoloNeck',
         deepen_factor=_base_.deepen_factor,
         widen_factor=_base_.widen_factor,
-        in_channels=[256, 512, _base_.last_stage_out_channels],
-        out_channels=[256, 512, _base_.last_stage_out_channels],
-        num_csp_blocks=3,
-        norm_cfg=_base_.norm_cfg,
-        act_cfg=dict(type='SiLU', inplace=True)),
+        in_channels = [128,256,512,_base_.last_stage_out_channels],
+        out_channels = [256,512,_base_.last_stage_out_channels],
+        num_repeats=[12, 12, 12, 12,12, 12],
+        depths=2,
+        fusion_in=1920,
+        fuse_block_num=3,
+        embed_dim_p=256,
+        embed_dim_n=1408,
+        trans_channels=[512, 256, 512, 1024],   # out 3
+        # trans_channels=[512, 256,128,256, 512, 1024],   # out 4
+    ),
     bbox_head=dict(
         type='YOLOv8Head',
         head_module=dict(

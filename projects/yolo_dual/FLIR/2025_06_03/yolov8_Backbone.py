@@ -1,6 +1,6 @@
-_base_ = '/data/nl/Mamba2Spectral/projects/yolo_dual/datasets/M3FD_enhance.py'
+_base_ = '/data/nl/Mamba2Spectral/projects/yolo_dual/datasets/FILR_low.py'
 
-_base_.max_epochs = 400
+
 model = dict(
     type='YOLODualNeckDetector',
     data_preprocessor=dict(
@@ -44,19 +44,9 @@ model = dict(
             norm_cfg = _base_.norm_cfg,
             act_cfg = dict(type='SiLU', inplace=True)
         ),
-        fusion_block=dict(
-                type = 'MambaTransformerBlock',
-                in_channels = [128 , 256 , 512],
-                mamba_size = [(128,160), (64 , 80), (32 , 40)],
-                mamba_bi = [False , False , False],
-                transformer_vert_anchor = [16 , 10 , 8], 
-                transformer_horz_anchor = [16 , 10 , 8],
-                transformer_loops_num = 1,
-                transformer_fusion = True,
-                transformer_mod_weight = True
-        ),
-        fusion_module = dict(type = 'OverLoCKFusionModule',in_channels = [128,256,512],),
-        head_input_module = dict(type = 'OverLoCKFusionModule',in_channels = [256,512,1024],),
+        fusion_block=dict(type = 'BaseFusion',in_channels = [128,256,512],),
+        fusion_module = dict(type = 'BaseFusion',in_channels = [128,256,512],),
+        head_input_module = dict(type = 'BaseFusion',in_channels = [256,512,1024],),
     ),
     neck=dict(
         type='YOLOv8PAFPN',

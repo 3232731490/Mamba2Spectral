@@ -1,6 +1,5 @@
 _base_ = '/data/nl/Mamba2Spectral/projects/yolo_dual/datasets/M3FD_enhance.py'
 
-_base_.max_epochs = 400
 model = dict(
     type='YOLODualNeckDetector',
     data_preprocessor=dict(
@@ -55,8 +54,8 @@ model = dict(
                 transformer_fusion = True,
                 transformer_mod_weight = True
         ),
-        fusion_module = dict(type = 'OverLoCKFusionModule',in_channels = [128,256,512],),
-        head_input_module = dict(type = 'OverLoCKFusionModule',in_channels = [256,512,1024],),
+        fusion_module = dict(type = 'BaseFusion',in_channels = [128,256,512],),
+        head_input_module = dict(type = 'AdaptiveGatedFusion',in_channels = [256,512,1024],),
     ),
     neck=dict(
         type='YOLOv8PAFPN',
