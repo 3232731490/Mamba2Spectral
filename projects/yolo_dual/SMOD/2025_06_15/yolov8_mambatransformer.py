@@ -1,4 +1,4 @@
-_base_ = '/data/nl/Mamba2Spectral/projects/yolo_dual/datasets/SMOD_enhance.py'
+_base_ = '/data/nl/Mamba2Spectral/projects/yolo_dual/datasets/SMOD_low.py'
 
 model = dict(
     type='YOLODualNeckDetector',
@@ -55,7 +55,7 @@ model = dict(
                 transformer_mod_weight = True
         ),
         fusion_module = dict(type = 'BaseFusion',in_channels = [128,256,512],),
-        head_input_module = dict(type = 'DetectionHeadFusionModule',in_channels = [256,512,1024],),
+        head_input_module = dict(type = 'BaseFusion',in_channels = [256,512,1024],),
     ),
     neck=dict(
         type='YOLOv8PAFPN',

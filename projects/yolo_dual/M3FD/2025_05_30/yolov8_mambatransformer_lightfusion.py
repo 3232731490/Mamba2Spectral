@@ -1,4 +1,4 @@
-_base_ = '/data/nl/Mamba2Spectral/projects/yolo_dual/datasets/SMOD_enhance.py'
+_base_ = '/data/nl/Mamba2Spectral/projects/yolo_dual/datasets/M3FD_low.py'
 
 model = dict(
     type='YOLODualNeckDetector',

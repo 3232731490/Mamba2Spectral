@@ -1,4 +1,4 @@
-_base_ = '/data/nl/Mamba2Spectral/projects/yolo_dual/datasets/FILR_low.py'
+_base_ = '/data/nl/Mamba2Spectral/projects/yolo_dual/datasets/SMOD_low.py'
 
 
 model = dict(
