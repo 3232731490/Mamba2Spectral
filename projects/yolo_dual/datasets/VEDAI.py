@@ -4,10 +4,10 @@ _base_ = '/data/nl/mmyolo2spectral/mmyolo/configs/yolov8/yolov8_s_syncbn_fast_8x
 # -----data related-----
 data_root = '/data/nl/mmdet2spectral/data/VEDAI/'  # Root path of data
 # Path of train annotation file
-train_ann_file = 'train.json'
+train_ann_file = 'train_class9.json'
 train_data_prefix = 'train/rgb'  # Prefix of train image path
 # Path of val annotation file
-val_ann_file = 'val.json'
+val_ann_file = 'val_class9.json'
 val_data_prefix = 'val/rgb'  # Prefix of val image path
 
 num_classes = 9  # Number of classes for classification

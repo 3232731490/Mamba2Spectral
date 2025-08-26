@@ -1,13 +1,13 @@
 _base_ = '/data/nl/mmyolo2spectral/mmyolo/configs/yolov8/yolov8_s_syncbn_fast_8xb16-500e_coco.py'
 # ========================Frequently modified parameters======================
 # -----data related-----
-data_root = '/data/nl/mmdet2spectral/data/LLVIP/' # Root path of data
+data_root = '/data/nl/mmdet2spectral/data/LLVIP_partion/'  # Root path of data
 # Path of train annotation file
 train_ann_file = 'train.json'
-train_data_prefix = 'train/rgb'  # Prefix of train image path
+train_data_prefix = 'train/enhance/rgb'  # Prefix of train image path
 # Path of val annotation file
 val_ann_file = 'val.json'
-val_data_prefix = 'val/rgb'  # Prefix of val image path
+val_data_prefix = 'val/enhance/rgb'  # Prefix of val image path
 
 num_classes = 1  # Number of classes for classification
 classes = ('person')
@@ -119,11 +119,6 @@ after_pre_transformer = [
         max_aspect_ratio=max_aspect_ratio,
         border=(-img_scale[0] // 2, -img_scale[1] // 2),
         border_val=(114, 114, 114)),
-    # dict(
-    #     type='LetterResize',
-    #     scale=img_scale,
-    #     allow_scale_up=True,
-    #     pad_val=dict(img=114.0)),
 ]
 
 before_last_transformer=[
@@ -274,7 +269,7 @@ default_hooks = dict(
     checkpoint=dict(
         type='CheckpointHook',
         interval=save_epoch_intervals,
-        save_best='coco/bbox_mAP',
+        save_best='coco/bbox_mAP_50',
         max_keep_ckpts=max_keep_ckpts))
 
 custom_hooks = [

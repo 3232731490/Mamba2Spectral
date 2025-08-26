@@ -8,6 +8,7 @@ from .fusion_blocks.baseline_fusion import BaseFusion
 from .fusion_blocks.mamba import MM_SS2D
 from .fusion_blocks.dmff_fusion_my import DMFF
 from .fusion_blocks.mambatransformer import MambaTransformerBlock
+from .fusion_blocks.transformermamba import TransformerMambaBlock
 
 from .fusion_modules import *
 
@@ -28,5 +29,5 @@ __all__ = ['YOLODualNeckDetector','YOLODualMidFusionDetector',
            'Dual_YOLOv8CSPDarknet','PConv2d',
            'KAISTMissrateMetric','GlareKAISTMissrateMetric','SMODMissrateMetric','KAISTMissrateMetric_class1',
            'MM_SS2D','GeneralDualBackbone','DMFF','ConvStem','PatchEmbedStem','GoldYoloNeck','YOLOv11PAFPN',
-           'MambaTransformerBlock',
+           'MambaTransformerBlock','TransformerMambaBlock'
            ]

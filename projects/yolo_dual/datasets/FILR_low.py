@@ -98,6 +98,7 @@ env_cfg = dict(cudnn_benchmark=True)
 
 
 
+
 albu_train_transforms = [
     dict(type='Blur', p=0.01),
     dict(type='MedianBlur', p=0.01),
@@ -129,11 +130,7 @@ before_last_transformer=[
 
 train_stage2_transformer = [
     dict(type='YOLOv5KeepRatioResize', scale=img_scale),
-    # dict(
-    #     type='LetterResize',
-    #     scale=img_scale,
-    #     allow_scale_up=True,
-    #     pad_val=dict(img=114.0)),
+    dict(type='Pad', size=img_scale, pad_val=dict(img=(114, 114, 114)) , _scope_ = 'mmdet'),
     dict(
         type='YOLOv5RandomAffine',
         max_rotate_degree=0.0,
@@ -145,11 +142,7 @@ train_stage2_transformer = [
 
 test_transformer = [
     dict(type='YOLOv5KeepRatioResize', scale=img_scale),
-    # dict(
-    #     type='LetterResize',
-    #     scale=img_scale,
-    #     allow_scale_up=True,
-    #     pad_val=dict(img=114.0))
+    dict(type='Pad', size=img_scale, pad_val=dict(img=(114, 114, 114)) , _scope_ = 'mmdet'),
 ]
 
 last_transform = [

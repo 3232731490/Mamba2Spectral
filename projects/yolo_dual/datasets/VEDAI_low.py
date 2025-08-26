@@ -1,17 +1,20 @@
 _base_ = '/data/nl/mmyolo2spectral/mmyolo/configs/yolov8/yolov8_s_syncbn_fast_8xb16-500e_coco.py'
+
 # ========================Frequently modified parameters======================
 # -----data related-----
-data_root = '/data/nl/mmdet2spectral/data/LLVIP/' # Root path of data
+data_root = '/data/nl/mmdet2spectral/data/VEDAI/'  # Root path of data
 # Path of train annotation file
-train_ann_file = 'train.json'
+train_ann_file = 'train_class8.json'
 train_data_prefix = 'train/rgb'  # Prefix of train image path
 # Path of val annotation file
-val_ann_file = 'val.json'
+val_ann_file = 'val_class8.json'
 val_data_prefix = 'val/rgb'  # Prefix of val image path
 
-num_classes = 1  # Number of classes for classification
-classes = ('person')
-metainfo = dict(classes=classes, palette=[(20, 220, 60)])
+num_classes = 9  # Number of classes for classification
+classes = ('car', 'truck','tractor','camping car','van','vehicle', 'pickup','boat')
+metainfo = dict(classes=classes, palette=[(20, 220, 60),(119, 11, 32), (0, 0, 142), 
+                                          (0, 0, 230), (106, 0, 228),(0, 60, 100), 
+                                          (0, 80, 100), (0, 0, 70)])
 
 train_batch_size_per_gpu = 8
 # Worker to pre-fetch data for each single GPU during training
@@ -97,6 +100,7 @@ env_cfg = dict(cudnn_benchmark=True)
 
 
 
+
 albu_train_transforms = [
     dict(type='Blur', p=0.01),
     dict(type='MedianBlur', p=0.01),
@@ -119,11 +123,6 @@ after_pre_transformer = [
         max_aspect_ratio=max_aspect_ratio,
         border=(-img_scale[0] // 2, -img_scale[1] // 2),
         border_val=(114, 114, 114)),
-    # dict(
-    #     type='LetterResize',
-    #     scale=img_scale,
-    #     allow_scale_up=True,
-    #     pad_val=dict(img=114.0)),
 ]
 
 before_last_transformer=[
@@ -133,11 +132,7 @@ before_last_transformer=[
 
 train_stage2_transformer = [
     dict(type='YOLOv5KeepRatioResize', scale=img_scale),
-    # dict(
-    #     type='LetterResize',
-    #     scale=img_scale,
-    #     allow_scale_up=True,
-    #     pad_val=dict(img=114.0)),
+    dict(type='Pad', size=img_scale, pad_val=dict(img=(114, 114, 114)) , _scope_ = 'mmdet'),
     dict(
         type='YOLOv5RandomAffine',
         max_rotate_degree=0.0,
@@ -149,11 +144,7 @@ train_stage2_transformer = [
 
 test_transformer = [
     dict(type='YOLOv5KeepRatioResize', scale=img_scale),
-    # dict(
-    #     type='LetterResize',
-    #     scale=img_scale,
-    #     allow_scale_up=True,
-    #     pad_val=dict(img=114.0))
+    dict(type='Pad', size=img_scale, pad_val=dict(img=(114, 114, 114)) , _scope_ = 'mmdet'),
 ]
 
 last_transform = [
@@ -274,7 +265,7 @@ default_hooks = dict(
     checkpoint=dict(
         type='CheckpointHook',
         interval=save_epoch_intervals,
-        save_best='coco/bbox_mAP',
+        save_best='coco/bbox_mAP_50',
         max_keep_ckpts=max_keep_ckpts))
 
 custom_hooks = [
