@@ -1,7 +1,7 @@
 # 定义配置文件和数据文件的数组
 configs=(
-  projects/yolo_dual/M3FD/2025_08_06/yolov8_transformermamba_lightfusion.py
-  projects/yolo_dual/M3FD/2025_08_06/yolov8_transformermamba_enhance_lightfusion.py
+  projects/yolo_dual/DroneVehicle/2025_08_27/yolov8_transformermamba_enhance_lightfusion.py
+  projects/yolo_dual/DroneVehicle/2025_08_27/yolov8_mambatransformer_enhance_lightfusion.py
 )
 
 # 遍历数组并运行每个 Python 脚本
@@ -27,7 +27,7 @@ for i in "${!configs[@]}"; do
     echo "Running train script with config: $config..."
 
     # 执行训练脚本
-    CUDA_VISIBLE_DEVICES=0 python tools/train.py "$config" --work-dir "$work_dir" --resume
+    CUDA_VISIBLE_DEVICES=1 python tools/train.py "$config" --work-dir "$work_dir" --resume
     
     # 检查退出状态
     if [ $? -eq 0 ]; then

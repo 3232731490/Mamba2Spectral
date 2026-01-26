@@ -1,7 +1,6 @@
 # 定义配置文件和数据文件的数组
 configs=(
-  projects/yolo_dual/M3FD/2025_08_06/yolov8_transformermamba.py
-  projects/yolo_dual/M3FD/2025_08_06/yolov8_transformermamba_enhance.py
+  projects/yolo_dual/DroneVehicle/2025_08_27/yolov8_transformermamba_lightfusion.py
 )
 
 # 遍历数组并运行每个 Python 脚本

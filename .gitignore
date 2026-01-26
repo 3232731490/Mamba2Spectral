@@ -53,7 +53,7 @@ coverage.xml
 *.pot
 
 # Django stuff:
-*.log
+# *.log
 local_settings.py
 db.sqlite3
 
@@ -117,7 +117,7 @@ data
 docs/modelzoo_statistics.md
 mmyolo/.mim
 output/
-work_dirs
+# work_dirs
 yolov5-6.1/
 
 # Pytorch
@@ -125,3 +125,6 @@ yolov5-6.1/
 *.pt
 *.py~
 *.sh~
+*.jpg
+*.png
+*.json

@@ -1,0 +1,1343 @@
+2025/12/23 08:37:07 - mmengine - INFO - 
+------------------------------------------------------------
+System environment:
+    sys.platform: linux
+    Python: 3.10.16 (main, Dec 11 2024, 16:24:50) [GCC 11.2.0]
+    CUDA available: True
+    MUSA available: False
+    numpy_random_seed: 910552398
+    GPU 0,1: NVIDIA A40
+    CUDA_HOME: /usr/local/cuda
+    NVCC: Cuda compilation tools, release 12.0, V12.0.76
+    GCC: gcc (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0
+    PyTorch: 2.3.1
+    PyTorch compiling details: PyTorch built with:
+  - GCC 9.3
+  - C++ Version: 201703
+  - Intel(R) oneAPI Math Kernel Library Version 2023.1-Product Build 20230303 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v3.3.6 (Git Hash 86e6af5974177e513fd3fee58425e1063e7f1361)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX512
+  - CUDA Runtime 12.1
+  - NVCC architecture flags: -gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_90,code=sm_90
+  - CuDNN 8.9.2
+  - Magma 2.6.1
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=12.1, CUDNN_VERSION=8.9.2, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -D_GLIBCXX_USE_CXX11_ABI=0 -fabi-version=11 -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOROCTRACER -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -O2 -fPIC -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-strict-overflow -Wno-strict-aliasing -Wno-stringop-overflow -Wsuggest-override -Wno-psabi -Wno-error=pedantic -Wno-error=old-style-cast -Wno-missing-braces -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=2.3.1, USE_CUDA=ON, USE_CUDNN=ON, USE_CUSPARSELT=1, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, 
+
+    TorchVision: 0.18.1
+    OpenCV: 4.11.0
+    MMEngine: 0.10.7
+
+Runtime environment:
+    cudnn_benchmark: True
+    mp_cfg: {'mp_start_method': 'fork', 'opencv_num_threads': 0}
+    dist_cfg: {'backend': 'nccl'}
+    seed: 910552398
+    Distributed launcher: none
+    Distributed training: False
+    GPU number: 1
+------------------------------------------------------------
+
+2025/12/23 08:37:09 - mmengine - INFO - Config:
+_backend_args = None
+_multiscale_resize_transforms = [
+    dict(
+        transforms=[
+            dict(scale=(
+                640,
+                640,
+            ), type='YOLOv5KeepRatioResize'),
+            dict(
+                allow_scale_up=False,
+                pad_val=dict(img=114),
+                scale=(
+                    640,
+                    640,
+                ),
+                type='LetterResize'),
+        ],
+        type='Compose'),
+    dict(
+        transforms=[
+            dict(scale=(
+                320,
+                320,
+            ), type='YOLOv5KeepRatioResize'),
+            dict(
+                allow_scale_up=False,
+                pad_val=dict(img=114),
+                scale=(
+                    320,
+                    320,
+                ),
+                type='LetterResize'),
+        ],
+        type='Compose'),
+    dict(
+        transforms=[
+            dict(scale=(
+                960,
+                960,
+            ), type='YOLOv5KeepRatioResize'),
+            dict(
+                allow_scale_up=False,
+                pad_val=dict(img=114),
+                scale=(
+                    960,
+                    960,
+                ),
+                type='LetterResize'),
+        ],
+        type='Compose'),
+]
+affine_scale = 0.5
+after_pre_transformer = [
+    dict(
+        border=(
+            -320,
+            -256,
+        ),
+        border_val=(
+            114,
+            114,
+            114,
+        ),
+        max_aspect_ratio=100,
+        max_rotate_degree=0.0,
+        max_shear_degree=0.0,
+        scaling_ratio_range=(
+            0.5,
+            1.5,
+        ),
+        type='YOLOv5RandomAffine'),
+]
+albu_train_transforms = [
+    dict(p=0.01, type='Blur'),
+    dict(p=0.01, type='MedianBlur'),
+    dict(p=0.01, type='ToGray'),
+    dict(p=0.01, type='CLAHE'),
+]
+backend_args = None
+base_lr = 0.01
+batch_shapes_cfg = None
+before_last_transformer = [
+    dict(type='YOLOv5HSVRandomAug'),
+    dict(prob=0.5, type='mmdet.RandomFlip'),
+]
+class_name = (
+    'car',
+    'person',
+    'bicycle',
+)
+classes = (
+    'car',
+    'person',
+    'bicycle',
+)
+close_mosaic_epochs = 10
+custom_hooks = [
+    dict(
+        ema_type='ExpMomentumEMA',
+        momentum=0.0001,
+        priority=49,
+        strict_load=False,
+        type='EMAHook',
+        update_buffers=True),
+    dict(
+        switch_epoch=190,
+        switch_pipeline=[
+            dict(backend_args=None, type='LoadImageFromFile'),
+            dict(backend_args=None, type='LoadImageFromFile2'),
+            dict(type='LoadAnnotations', with_bbox=True, with_mask=False),
+            dict(
+                transforms=[
+                    dict(scale=(
+                        640,
+                        512,
+                    ), type='YOLOv5KeepRatioResize'),
+                    dict(
+                        _scope_='mmdet',
+                        pad_val=dict(img=(
+                            114,
+                            114,
+                            114,
+                        )),
+                        size=(
+                            640,
+                            512,
+                        ),
+                        type='Pad'),
+                    dict(
+                        border_val=(
+                            114,
+                            114,
+                            114,
+                        ),
+                        max_aspect_ratio=100,
+                        max_rotate_degree=0.0,
+                        max_shear_degree=0.0,
+                        scaling_ratio_range=(
+                            0.5,
+                            1.5,
+                        ),
+                        type='YOLOv5RandomAffine'),
+                ],
+                type='Image2Broadcaster'),
+            dict(
+                bbox_params=dict(
+                    format='pascal_voc',
+                    label_fields=[
+                        'gt_bboxes_labels',
+                        'gt_ignore_flags',
+                    ],
+                    type='BboxParams'),
+                keymap=dict(gt_bboxes='bboxes', img='image'),
+                transforms=[
+                    dict(p=0.01, type='Blur'),
+                    dict(p=0.01, type='MedianBlur'),
+                    dict(p=0.01, type='ToGray'),
+                    dict(p=0.01, type='CLAHE'),
+                ],
+                type='Dual_Albu'),
+            dict(
+                transforms=[
+                    dict(type='YOLOv5HSVRandomAug'),
+                    dict(prob=0.5, type='mmdet.RandomFlip'),
+                ],
+                type='Image2Broadcaster'),
+            dict(
+                meta_keys=(
+                    'img_id',
+                    'img_path',
+                    'ori_shape',
+                    'img_shape',
+                    'img_path2',
+                    'ori_shape2',
+                    'img_shape2',
+                    'scale_factor',
+                ),
+                type='DoublePackDetInputs'),
+        ],
+        type='mmdet.PipelineSwitchHook'),
+]
+data_root = '/data/nl/mmdet2spectral/data/FLIR/'
+dataset_type = 'DualStreamCocoDataset'
+deepen_factor = 0.67
+default_hooks = dict(
+    checkpoint=dict(
+        interval=1,
+        max_keep_ckpts=3,
+        save_best='coco/bbox_mAP_50',
+        type='CheckpointHook'),
+    logger=dict(interval=50, type='LoggerHook'),
+    param_scheduler=dict(
+        lr_factor=0.01,
+        max_epochs=200,
+        scheduler_type='linear',
+        type='YOLOv5ParamSchedulerHook'),
+    sampler_seed=dict(type='DistSamplerSeedHook'),
+    timer=dict(type='IterTimerHook'),
+    visualization=dict(
+        draw=True,
+        test_out_dir='/data/nl/Mamba2Spectral/work_dirs/FLIR_tir',
+        type='mmdet.DetVisualizationHook'))
+default_scope = 'mmyolo'
+env_cfg = dict(
+    cudnn_benchmark=True,
+    dist_cfg=dict(backend='nccl'),
+    mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0))
+img_scale = (
+    640,
+    512,
+)
+img_scales = [
+    (
+        640,
+        640,
+    ),
+    (
+        320,
+        320,
+    ),
+    (
+        960,
+        960,
+    ),
+]
+last_stage_out_channels = 1024
+last_transform = [
+    dict(
+        bbox_params=dict(
+            format='pascal_voc',
+            label_fields=[
+                'gt_bboxes_labels',
+                'gt_ignore_flags',
+            ],
+            type='BboxParams'),
+        keymap=dict(gt_bboxes='bboxes', img='image'),
+        transforms=[
+            dict(p=0.01, type='Blur'),
+            dict(p=0.01, type='MedianBlur'),
+            dict(p=0.01, type='ToGray'),
+            dict(p=0.01, type='CLAHE'),
+        ],
+        type='Dual_Albu'),
+    dict(
+        transforms=[
+            dict(type='YOLOv5HSVRandomAug'),
+            dict(prob=0.5, type='mmdet.RandomFlip'),
+        ],
+        type='Image2Broadcaster'),
+    dict(
+        meta_keys=(
+            'img_id',
+            'img_path',
+            'ori_shape',
+            'img_shape',
+            'img_path2',
+            'ori_shape2',
+            'img_shape2',
+            'scale_factor',
+        ),
+        type='DoublePackDetInputs'),
+]
+launcher = 'none'
+load_from = '/data/nl/Mamba2Spectral/work_dirs/FLIR/2025_07_12/yolov8_mambatransformer_lightfusion/best_coco_bbox_mAP_50_epoch_108.pth'
+log_level = 'INFO'
+log_processor = dict(by_epoch=True, type='LogProcessor', window_size=50)
+loss_bbox_weight = 7.5
+loss_cls_weight = 0.5
+loss_dfl_weight = 0.375
+lr_factor = 0.01
+max_aspect_ratio = 100
+max_epochs = 200
+max_keep_ckpts = 3
+metainfo = dict(
+    classes=(
+        'car',
+        'person',
+        'bicycle',
+    ),
+    palette=[
+        (
+            20,
+            220,
+            60,
+        ),
+        (
+            119,
+            11,
+            32,
+        ),
+        (
+            0,
+            0,
+            142,
+        ),
+    ])
+model = dict(
+    backbone=dict(
+        act_cfg=dict(inplace=True, type='SiLU'),
+        deepen_factor=0.67,
+        fusion_block=dict(
+            in_channels=[
+                128,
+                256,
+                512,
+            ],
+            mamba_bi=[
+                False,
+                False,
+                False,
+            ],
+            mamba_size=[
+                (
+                    128,
+                    160,
+                ),
+                (
+                    64,
+                    80,
+                ),
+                (
+                    32,
+                    40,
+                ),
+            ],
+            transformer_fusion=True,
+            transformer_horz_anchor=[
+                16,
+                10,
+                8,
+            ],
+            transformer_loops_num=1,
+            transformer_mod_weight=True,
+            transformer_vert_anchor=[
+                16,
+                10,
+                8,
+            ],
+            type='MambaTransformerBlock'),
+        fusion_flag=True,
+        fusion_indices=(
+            2,
+            3,
+            4,
+        ),
+        fusion_module=dict(in_channels=[
+            128,
+            256,
+            512,
+        ], type='BaseFusion'),
+        head_input_module=dict(
+            in_channels=[
+                256,
+                512,
+                1024,
+            ], type='DetectionHeadFusionModule'),
+        input_channels=3,
+        norm_cfg=dict(eps=0.001, momentum=0.03, type='BN'),
+        out_indices=(
+            2,
+            3,
+            4,
+        ),
+        stages=dict(
+            settings=dict(
+                act_cfg=dict(inplace=True, type='SiLU'),
+                add_identity=[
+                    True,
+                    True,
+                    True,
+                    True,
+                ],
+                deepen_factor=0.67,
+                in_channels=[
+                    64,
+                    128,
+                    256,
+                    512,
+                ],
+                norm_cfg=dict(eps=0.001, momentum=0.03, type='BN'),
+                num_blocks=[
+                    3,
+                    6,
+                    6,
+                    3,
+                ],
+                out_channels=[
+                    128,
+                    256,
+                    512,
+                    1024,
+                ],
+                use_spp=[
+                    False,
+                    False,
+                    False,
+                    True,
+                ],
+                widen_factor=0.75),
+            type='yoloV8CSPDarknet'),
+        stem_block=dict(
+            act_cfg=dict(inplace=True, type='SiLU'),
+            in_channels=3,
+            kernel_size=3,
+            norm_cfg=dict(eps=0.001, momentum=0.03, type='BN'),
+            out_channels=64,
+            padding=1,
+            stride=2,
+            type='ConvStem',
+            widen_factor=0.75),
+        type='GeneralDualBackbone',
+        widen_factor=0.75),
+    bbox_head=dict(
+        bbox_coder=dict(type='DistancePointBBoxCoder'),
+        head_module=dict(
+            act_cfg=dict(inplace=True, type='SiLU'),
+            featmap_strides=[
+                8,
+                16,
+                32,
+            ],
+            in_channels=[
+                256,
+                512,
+                1024,
+            ],
+            norm_cfg=dict(eps=0.001, momentum=0.03, type='BN'),
+            num_classes=3,
+            reg_max=16,
+            type='YOLOv8HeadModule',
+            widen_factor=0.75),
+        loss_bbox=dict(
+            bbox_format='xyxy',
+            iou_mode='ciou',
+            loss_weight=7.5,
+            reduction='sum',
+            return_iou=False,
+            type='IoULoss'),
+        loss_cls=dict(
+            loss_weight=0.5,
+            reduction='none',
+            type='mmdet.CrossEntropyLoss',
+            use_sigmoid=True),
+        loss_dfl=dict(
+            loss_weight=0.375,
+            reduction='mean',
+            type='mmdet.DistributionFocalLoss'),
+        prior_generator=dict(
+            offset=0.5, strides=[
+                8,
+                16,
+                32,
+            ], type='mmdet.MlvlPointGenerator'),
+        type='YOLOv8Head'),
+    data_preprocessor=dict(
+        bgr_to_rgb=True,
+        mean=[
+            123.675,
+            116.28,
+            103.53,
+        ],
+        std=[
+            58.395,
+            57.12,
+            57.375,
+        ],
+        type='DualInputDetDataPreprocessor'),
+    neck=dict(
+        act_cfg=dict(inplace=True, type='SiLU'),
+        deepen_factor=0.67,
+        in_channels=[
+            256,
+            512,
+            1024,
+        ],
+        norm_cfg=dict(eps=0.001, momentum=0.03, type='BN'),
+        num_csp_blocks=3,
+        out_channels=[
+            256,
+            512,
+            1024,
+        ],
+        type='YOLOv8PAFPN',
+        widen_factor=0.75),
+    test_cfg=dict(
+        max_per_img=300,
+        multi_label=True,
+        nms=dict(iou_threshold=0.7, type='nms'),
+        nms_pre=30000,
+        score_thr=0.001),
+    train_cfg=dict(
+        assigner=dict(
+            alpha=0.5,
+            beta=6.0,
+            eps=1e-09,
+            num_classes=3,
+            topk=10,
+            type='BatchTaskAlignedAssigner',
+            use_ciou=True)),
+    type='YOLODualNeckDetector')
+model_test_cfg = dict(
+    max_per_img=300,
+    multi_label=True,
+    nms=dict(iou_threshold=0.7, type='nms'),
+    nms_pre=30000,
+    score_thr=0.001)
+norm_cfg = dict(eps=0.001, momentum=0.03, type='BN')
+num_classes = 3
+num_det_layers = 3
+optim_wrapper = dict(
+    clip_grad=dict(max_norm=10.0),
+    constructor='YOLOv5OptimizerConstructor',
+    optimizer=dict(
+        batch_size_per_gpu=8,
+        lr=0.01,
+        momentum=0.937,
+        nesterov=True,
+        type='SGD',
+        weight_decay=0.0005),
+    type='OptimWrapper')
+param_scheduler = None
+persistent_workers = True
+pre_transform = [
+    dict(backend_args=None, type='LoadImageFromFile'),
+    dict(backend_args=None, type='LoadImageFromFile2'),
+    dict(type='LoadAnnotations', with_bbox=True, with_mask=False),
+]
+resume = False
+save_epoch_intervals = 1
+strides = [
+    8,
+    16,
+    32,
+]
+tal_alpha = 0.5
+tal_beta = 6.0
+tal_topk = 10
+test_cfg = dict(type='TestLoop')
+test_dataloader = dict(
+    batch_size=1,
+    dataset=dict(
+        ann_file='val_class3.json',
+        batch_shapes_cfg=None,
+        data_prefix=dict(img='val/normal/rgb'),
+        data_root='/data/nl/mmdet2spectral/data/FLIR/',
+        metainfo=dict(
+            classes=(
+                'car',
+                'person',
+                'bicycle',
+            ),
+            palette=[
+                (
+                    20,
+                    220,
+                    60,
+                ),
+                (
+                    119,
+                    11,
+                    32,
+                ),
+                (
+                    0,
+                    0,
+                    142,
+                ),
+            ]),
+        pipeline=[
+            dict(backend_args=None, type='LoadImageFromFile'),
+            dict(backend_args=None, type='LoadImageFromFile2'),
+            dict(_scope_='mmdet', type='LoadAnnotations', with_bbox=True),
+            dict(
+                transforms=[
+                    dict(scale=(
+                        640,
+                        512,
+                    ), type='YOLOv5KeepRatioResize'),
+                    dict(
+                        _scope_='mmdet',
+                        pad_val=dict(img=(
+                            114,
+                            114,
+                            114,
+                        )),
+                        size=(
+                            640,
+                            512,
+                        ),
+                        type='Pad'),
+                ],
+                type='Image2Broadcaster'),
+            dict(
+                meta_keys=(
+                    'img_id',
+                    'img_path',
+                    'ori_shape',
+                    'img_shape',
+                    'img_path2',
+                    'ori_shape2',
+                    'img_shape2',
+                    'scale_factor',
+                ),
+                type='DoublePackDetInputs'),
+        ],
+        test_mode=True,
+        type='DualStreamCocoDataset'),
+    drop_last=False,
+    num_workers=2,
+    persistent_workers=True,
+    pin_memory=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+test_evaluator = dict(
+    ann_file='/data/nl/mmdet2spectral/data/FLIR/val_class3.json',
+    classwise=True,
+    metric='bbox',
+    proposal_nums=(
+        100,
+        1,
+        10,
+    ),
+    type='mmdet.CocoMetric')
+test_pipeline = [
+    dict(backend_args=None, type='LoadImageFromFile'),
+    dict(backend_args=None, type='LoadImageFromFile2'),
+    dict(_scope_='mmdet', type='LoadAnnotations', with_bbox=True),
+    dict(
+        transforms=[
+            dict(scale=(
+                640,
+                512,
+            ), type='YOLOv5KeepRatioResize'),
+            dict(
+                _scope_='mmdet',
+                pad_val=dict(img=(
+                    114,
+                    114,
+                    114,
+                )),
+                size=(
+                    640,
+                    512,
+                ),
+                type='Pad'),
+        ],
+        type='Image2Broadcaster'),
+    dict(
+        meta_keys=(
+            'img_id',
+            'img_path',
+            'ori_shape',
+            'img_shape',
+            'img_path2',
+            'ori_shape2',
+            'img_shape2',
+            'scale_factor',
+        ),
+        type='DoublePackDetInputs'),
+]
+test_transformer = [
+    dict(scale=(
+        640,
+        512,
+    ), type='YOLOv5KeepRatioResize'),
+    dict(
+        _scope_='mmdet',
+        pad_val=dict(img=(
+            114,
+            114,
+            114,
+        )),
+        size=(
+            640,
+            512,
+        ),
+        type='Pad'),
+]
+train_ann_file = 'train_class3.json'
+train_batch_size_per_gpu = 8
+train_cfg = dict(
+    dynamic_intervals=[
+        (
+            190,
+            1,
+        ),
+    ],
+    max_epochs=200,
+    type='EpochBasedTrainLoop',
+    val_interval=1)
+train_data_prefix = 'train/normal/rgb'
+train_dataloader = dict(
+    batch_size=8,
+    collate_fn=dict(type='dual_yolo_collate'),
+    dataset=dict(
+        ann_file='train_class3.json',
+        data_prefix=dict(img='train/normal/rgb'),
+        data_root='/data/nl/mmdet2spectral/data/FLIR/',
+        filter_cfg=dict(filter_empty_gt=False, min_size=32),
+        metainfo=dict(
+            classes=(
+                'car',
+                'person',
+                'bicycle',
+            ),
+            palette=[
+                (
+                    20,
+                    220,
+                    60,
+                ),
+                (
+                    119,
+                    11,
+                    32,
+                ),
+                (
+                    0,
+                    0,
+                    142,
+                ),
+            ]),
+        pipeline=[
+            dict(backend_args=None, type='LoadImageFromFile'),
+            dict(backend_args=None, type='LoadImageFromFile2'),
+            dict(type='LoadAnnotations', with_bbox=True, with_mask=False),
+            dict(
+                img_scale=(
+                    640,
+                    512,
+                ),
+                pad_val=114.0,
+                pre_transform=[
+                    dict(backend_args=None, type='LoadImageFromFile'),
+                    dict(backend_args=None, type='LoadImageFromFile2'),
+                    dict(
+                        type='LoadAnnotations',
+                        with_bbox=True,
+                        with_mask=False),
+                ],
+                type='Dual_Mosaic',
+                use_cached=False),
+            dict(
+                transforms=[
+                    dict(
+                        border=(
+                            -320,
+                            -256,
+                        ),
+                        border_val=(
+                            114,
+                            114,
+                            114,
+                        ),
+                        max_aspect_ratio=100,
+                        max_rotate_degree=0.0,
+                        max_shear_degree=0.0,
+                        scaling_ratio_range=(
+                            0.5,
+                            1.5,
+                        ),
+                        type='YOLOv5RandomAffine'),
+                ],
+                type='Image2Broadcaster'),
+            dict(
+                bbox_params=dict(
+                    format='pascal_voc',
+                    label_fields=[
+                        'gt_bboxes_labels',
+                        'gt_ignore_flags',
+                    ],
+                    type='BboxParams'),
+                keymap=dict(gt_bboxes='bboxes', img='image'),
+                transforms=[
+                    dict(p=0.01, type='Blur'),
+                    dict(p=0.01, type='MedianBlur'),
+                    dict(p=0.01, type='ToGray'),
+                    dict(p=0.01, type='CLAHE'),
+                ],
+                type='Dual_Albu'),
+            dict(
+                transforms=[
+                    dict(type='YOLOv5HSVRandomAug'),
+                    dict(prob=0.5, type='mmdet.RandomFlip'),
+                ],
+                type='Image2Broadcaster'),
+            dict(
+                meta_keys=(
+                    'img_id',
+                    'img_path',
+                    'ori_shape',
+                    'img_shape',
+                    'img_path2',
+                    'ori_shape2',
+                    'img_shape2',
+                    'scale_factor',
+                ),
+                type='DoublePackDetInputs'),
+        ],
+        type='DualStreamCocoDataset'),
+    num_workers=8,
+    persistent_workers=True,
+    pin_memory=True,
+    sampler=dict(shuffle=True, type='DefaultSampler'))
+train_num_workers = 8
+train_pipeline = [
+    dict(backend_args=None, type='LoadImageFromFile'),
+    dict(backend_args=None, type='LoadImageFromFile2'),
+    dict(type='LoadAnnotations', with_bbox=True, with_mask=False),
+    dict(
+        img_scale=(
+            640,
+            512,
+        ),
+        pad_val=114.0,
+        pre_transform=[
+            dict(backend_args=None, type='LoadImageFromFile'),
+            dict(backend_args=None, type='LoadImageFromFile2'),
+            dict(type='LoadAnnotations', with_bbox=True, with_mask=False),
+        ],
+        type='Dual_Mosaic',
+        use_cached=False),
+    dict(
+        transforms=[
+            dict(
+                border=(
+                    -320,
+                    -256,
+                ),
+                border_val=(
+                    114,
+                    114,
+                    114,
+                ),
+                max_aspect_ratio=100,
+                max_rotate_degree=0.0,
+                max_shear_degree=0.0,
+                scaling_ratio_range=(
+                    0.5,
+                    1.5,
+                ),
+                type='YOLOv5RandomAffine'),
+        ],
+        type='Image2Broadcaster'),
+    dict(
+        bbox_params=dict(
+            format='pascal_voc',
+            label_fields=[
+                'gt_bboxes_labels',
+                'gt_ignore_flags',
+            ],
+            type='BboxParams'),
+        keymap=dict(gt_bboxes='bboxes', img='image'),
+        transforms=[
+            dict(p=0.01, type='Blur'),
+            dict(p=0.01, type='MedianBlur'),
+            dict(p=0.01, type='ToGray'),
+            dict(p=0.01, type='CLAHE'),
+        ],
+        type='Dual_Albu'),
+    dict(
+        transforms=[
+            dict(type='YOLOv5HSVRandomAug'),
+            dict(prob=0.5, type='mmdet.RandomFlip'),
+        ],
+        type='Image2Broadcaster'),
+    dict(
+        meta_keys=(
+            'img_id',
+            'img_path',
+            'ori_shape',
+            'img_shape',
+            'img_path2',
+            'ori_shape2',
+            'img_shape2',
+            'scale_factor',
+        ),
+        type='DoublePackDetInputs'),
+]
+train_pipeline_stage2 = [
+    dict(backend_args=None, type='LoadImageFromFile'),
+    dict(backend_args=None, type='LoadImageFromFile2'),
+    dict(type='LoadAnnotations', with_bbox=True, with_mask=False),
+    dict(
+        transforms=[
+            dict(scale=(
+                640,
+                512,
+            ), type='YOLOv5KeepRatioResize'),
+            dict(
+                _scope_='mmdet',
+                pad_val=dict(img=(
+                    114,
+                    114,
+                    114,
+                )),
+                size=(
+                    640,
+                    512,
+                ),
+                type='Pad'),
+            dict(
+                border_val=(
+                    114,
+                    114,
+                    114,
+                ),
+                max_aspect_ratio=100,
+                max_rotate_degree=0.0,
+                max_shear_degree=0.0,
+                scaling_ratio_range=(
+                    0.5,
+                    1.5,
+                ),
+                type='YOLOv5RandomAffine'),
+        ],
+        type='Image2Broadcaster'),
+    dict(
+        bbox_params=dict(
+            format='pascal_voc',
+            label_fields=[
+                'gt_bboxes_labels',
+                'gt_ignore_flags',
+            ],
+            type='BboxParams'),
+        keymap=dict(gt_bboxes='bboxes', img='image'),
+        transforms=[
+            dict(p=0.01, type='Blur'),
+            dict(p=0.01, type='MedianBlur'),
+            dict(p=0.01, type='ToGray'),
+            dict(p=0.01, type='CLAHE'),
+        ],
+        type='Dual_Albu'),
+    dict(
+        transforms=[
+            dict(type='YOLOv5HSVRandomAug'),
+            dict(prob=0.5, type='mmdet.RandomFlip'),
+        ],
+        type='Image2Broadcaster'),
+    dict(
+        meta_keys=(
+            'img_id',
+            'img_path',
+            'ori_shape',
+            'img_shape',
+            'img_path2',
+            'ori_shape2',
+            'img_shape2',
+            'scale_factor',
+        ),
+        type='DoublePackDetInputs'),
+]
+train_stage2_transformer = [
+    dict(scale=(
+        640,
+        512,
+    ), type='YOLOv5KeepRatioResize'),
+    dict(
+        _scope_='mmdet',
+        pad_val=dict(img=(
+            114,
+            114,
+            114,
+        )),
+        size=(
+            640,
+            512,
+        ),
+        type='Pad'),
+    dict(
+        border_val=(
+            114,
+            114,
+            114,
+        ),
+        max_aspect_ratio=100,
+        max_rotate_degree=0.0,
+        max_shear_degree=0.0,
+        scaling_ratio_range=(
+            0.5,
+            1.5,
+        ),
+        type='YOLOv5RandomAffine'),
+]
+tta_model = dict(
+    tta_cfg=dict(max_per_img=300, nms=dict(iou_threshold=0.65, type='nms')),
+    type='mmdet.DetTTAModel')
+tta_pipeline = [
+    dict(backend_args=None, type='LoadImageFromFile'),
+    dict(
+        transforms=[
+            [
+                dict(
+                    transforms=[
+                        dict(scale=(
+                            640,
+                            640,
+                        ), type='YOLOv5KeepRatioResize'),
+                        dict(
+                            allow_scale_up=False,
+                            pad_val=dict(img=114),
+                            scale=(
+                                640,
+                                640,
+                            ),
+                            type='LetterResize'),
+                    ],
+                    type='Compose'),
+                dict(
+                    transforms=[
+                        dict(scale=(
+                            320,
+                            320,
+                        ), type='YOLOv5KeepRatioResize'),
+                        dict(
+                            allow_scale_up=False,
+                            pad_val=dict(img=114),
+                            scale=(
+                                320,
+                                320,
+                            ),
+                            type='LetterResize'),
+                    ],
+                    type='Compose'),
+                dict(
+                    transforms=[
+                        dict(scale=(
+                            960,
+                            960,
+                        ), type='YOLOv5KeepRatioResize'),
+                        dict(
+                            allow_scale_up=False,
+                            pad_val=dict(img=114),
+                            scale=(
+                                960,
+                                960,
+                            ),
+                            type='LetterResize'),
+                    ],
+                    type='Compose'),
+            ],
+            [
+                dict(prob=1.0, type='mmdet.RandomFlip'),
+                dict(prob=0.0, type='mmdet.RandomFlip'),
+            ],
+            [
+                dict(type='mmdet.LoadAnnotations', with_bbox=True),
+            ],
+            [
+                dict(
+                    meta_keys=(
+                        'img_id',
+                        'img_path',
+                        'ori_shape',
+                        'img_shape',
+                        'scale_factor',
+                        'pad_param',
+                        'flip',
+                        'flip_direction',
+                    ),
+                    type='mmdet.PackDetInputs'),
+            ],
+        ],
+        type='TestTimeAug'),
+]
+val_ann_file = 'val_class3.json'
+val_batch_size_per_gpu = 1
+val_cfg = dict(type='ValLoop')
+val_data_prefix = 'val/normal/rgb'
+val_dataloader = dict(
+    batch_size=1,
+    dataset=dict(
+        ann_file='val_class3.json',
+        batch_shapes_cfg=None,
+        data_prefix=dict(img='val/normal/rgb'),
+        data_root='/data/nl/mmdet2spectral/data/FLIR/',
+        metainfo=dict(
+            classes=(
+                'car',
+                'person',
+                'bicycle',
+            ),
+            palette=[
+                (
+                    20,
+                    220,
+                    60,
+                ),
+                (
+                    119,
+                    11,
+                    32,
+                ),
+                (
+                    0,
+                    0,
+                    142,
+                ),
+            ]),
+        pipeline=[
+            dict(backend_args=None, type='LoadImageFromFile'),
+            dict(backend_args=None, type='LoadImageFromFile2'),
+            dict(_scope_='mmdet', type='LoadAnnotations', with_bbox=True),
+            dict(
+                transforms=[
+                    dict(scale=(
+                        640,
+                        512,
+                    ), type='YOLOv5KeepRatioResize'),
+                    dict(
+                        _scope_='mmdet',
+                        pad_val=dict(img=(
+                            114,
+                            114,
+                            114,
+                        )),
+                        size=(
+                            640,
+                            512,
+                        ),
+                        type='Pad'),
+                ],
+                type='Image2Broadcaster'),
+            dict(
+                meta_keys=(
+                    'img_id',
+                    'img_path',
+                    'ori_shape',
+                    'img_shape',
+                    'img_path2',
+                    'ori_shape2',
+                    'img_shape2',
+                    'scale_factor',
+                ),
+                type='DoublePackDetInputs'),
+        ],
+        test_mode=True,
+        type='DualStreamCocoDataset'),
+    drop_last=False,
+    num_workers=2,
+    persistent_workers=True,
+    pin_memory=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+val_evaluator = dict(
+    ann_file='/data/nl/mmdet2spectral/data/FLIR/val_class3.json',
+    classwise=True,
+    metric='bbox',
+    proposal_nums=(
+        100,
+        1,
+        10,
+    ),
+    type='mmdet.CocoMetric')
+val_interval_stage2 = 1
+val_num_workers = 2
+vis_backends = [
+    dict(type='LocalVisBackend'),
+]
+visualizer = dict(
+    name='visualizer',
+    type='mmdet.DetLocalVisualizer',
+    vis_backends=[
+        dict(type='LocalVisBackend'),
+    ])
+weight_decay = 0.0005
+widen_factor = 0.75
+work_dir = './work_dirs/yolov8_mambatransformer_lightfusion'
+
+2025/12/23 08:37:12 - mmengine - INFO - Distributed training is not used, all SyncBatchNorm (SyncBN) layers in the model will be automatically reverted to BatchNormXd layers if they are used.
+2025/12/23 08:37:12 - mmengine - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(49          ) EMAHook                            
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_load_checkpoint:
+(49          ) EMAHook                            
+ -------------------- 
+before_train:
+(9           ) YOLOv5ParamSchedulerHook           
+(VERY_HIGH   ) RuntimeInfoHook                    
+(49          ) EMAHook                            
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DistSamplerSeedHook                
+(NORMAL      ) PipelineSwitchHook                 
+ -------------------- 
+before_train_iter:
+(9           ) YOLOv5ParamSchedulerHook           
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(9           ) YOLOv5ParamSchedulerHook           
+(VERY_HIGH   ) RuntimeInfoHook                    
+(49          ) EMAHook                            
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train_epoch:
+(9           ) YOLOv5ParamSchedulerHook           
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_val_epoch:
+(49          ) EMAHook                            
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_val_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DetVisualizationHook               
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_val_epoch:
+(9           ) YOLOv5ParamSchedulerHook           
+(VERY_HIGH   ) RuntimeInfoHook                    
+(49          ) EMAHook                            
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_save_checkpoint:
+(49          ) EMAHook                            
+ -------------------- 
+after_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_test_epoch:
+(49          ) EMAHook                            
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_test_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_test_iter:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DetVisualizationHook               
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(49          ) EMAHook                            
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_run:
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+2025/12/23 08:37:16 - mmengine - INFO - Load checkpoint from /data/nl/Mamba2Spectral/work_dirs/FLIR/2025_07_12/yolov8_mambatransformer_lightfusion/best_coco_bbox_mAP_50_epoch_108.pth
+2025/12/23 08:37:29 - mmengine - INFO - Epoch(test) [  50/1013]    eta: 0:04:02  time: 0.2517  data_time: 0.1340  memory: 758  
+2025/12/23 08:37:41 - mmengine - INFO - Epoch(test) [ 100/1013]    eta: 0:03:39  time: 0.2294  data_time: 0.1267  memory: 743  
+2025/12/23 08:37:53 - mmengine - INFO - Epoch(test) [ 150/1013]    eta: 0:03:27  time: 0.2401  data_time: 0.1291  memory: 743  
+2025/12/23 08:38:05 - mmengine - INFO - Epoch(test) [ 200/1013]    eta: 0:03:15  time: 0.2381  data_time: 0.1323  memory: 743  
+2025/12/23 08:38:16 - mmengine - INFO - Epoch(test) [ 250/1013]    eta: 0:03:00  time: 0.2230  data_time: 0.1294  memory: 743  
+2025/12/23 08:38:27 - mmengine - INFO - Epoch(test) [ 300/1013]    eta: 0:02:46  time: 0.2177  data_time: 0.1225  memory: 743  
+2025/12/23 08:38:38 - mmengine - INFO - Epoch(test) [ 350/1013]    eta: 0:02:33  time: 0.2187  data_time: 0.1274  memory: 743  
+2025/12/23 08:38:48 - mmengine - INFO - Epoch(test) [ 400/1013]    eta: 0:02:20  time: 0.2174  data_time: 0.1246  memory: 743  
+2025/12/23 08:38:59 - mmengine - INFO - Epoch(test) [ 450/1013]    eta: 0:02:08  time: 0.2217  data_time: 0.1291  memory: 743  
+2025/12/23 08:39:11 - mmengine - INFO - Epoch(test) [ 500/1013]    eta: 0:01:56  time: 0.2207  data_time: 0.1246  memory: 743  
+2025/12/23 08:39:21 - mmengine - INFO - Epoch(test) [ 550/1013]    eta: 0:01:45  time: 0.2171  data_time: 0.1251  memory: 743  
+2025/12/23 08:39:32 - mmengine - INFO - Epoch(test) [ 600/1013]    eta: 0:01:33  time: 0.2168  data_time: 0.1244  memory: 743  
+2025/12/23 08:39:43 - mmengine - INFO - Epoch(test) [ 650/1013]    eta: 0:01:22  time: 0.2245  data_time: 0.1313  memory: 743  
+2025/12/23 08:39:54 - mmengine - INFO - Epoch(test) [ 700/1013]    eta: 0:01:10  time: 0.2112  data_time: 0.1200  memory: 743  
+2025/12/23 08:40:05 - mmengine - INFO - Epoch(test) [ 750/1013]    eta: 0:00:59  time: 0.2203  data_time: 0.1297  memory: 743  
+2025/12/23 08:40:16 - mmengine - INFO - Epoch(test) [ 800/1013]    eta: 0:00:47  time: 0.2175  data_time: 0.1249  memory: 743  
+2025/12/23 08:40:26 - mmengine - INFO - Epoch(test) [ 850/1013]    eta: 0:00:36  time: 0.2082  data_time: 0.1221  memory: 743  
+2025/12/23 08:40:35 - mmengine - INFO - Epoch(test) [ 900/1013]    eta: 0:00:24  time: 0.1788  data_time: 0.1052  memory: 743  
+2025/12/23 08:40:45 - mmengine - INFO - Epoch(test) [ 950/1013]    eta: 0:00:13  time: 0.1937  data_time: 0.1149  memory: 743  
+2025/12/23 08:40:53 - mmengine - INFO - Epoch(test) [1000/1013]    eta: 0:00:02  time: 0.1709  data_time: 0.0966  memory: 743  
+2025/12/23 08:40:57 - mmengine - INFO - Evaluating bbox...
+2025/12/23 08:41:04 - mmengine - INFO - 
++----------+-------+--------+--------+-------+-------+-------+
+| category | mAP   | mAP_50 | mAP_75 | mAP_s | mAP_m | mAP_l |
++----------+-------+--------+--------+-------+-------+-------+
+| car      | 0.622 | 0.912  | 0.699  | 0.446 | 0.667 | 0.863 |
+| person   | 0.464 | 0.855  | 0.442  | 0.369 | 0.532 | 0.533 |
+| bicycle  | 0.24  | 0.597  | 0.119  | 0.209 | 0.284 | 0.182 |
++----------+-------+--------+--------+-------+-------+-------+
+2025/12/23 08:41:04 - mmengine - INFO - bbox_mAP_copypaste: 0.442 0.788 0.420 0.341 0.494 0.526
+2025/12/23 08:41:04 - mmengine - INFO - Epoch(test) [1013/1013]    coco/car_precision: 0.6220  coco/person_precision: 0.4640  coco/bicycle_precision: 0.2400  coco/bbox_mAP: 0.4420  coco/bbox_mAP_50: 0.7880  coco/bbox_mAP_75: 0.4200  coco/bbox_mAP_s: 0.3410  coco/bbox_mAP_m: 0.4940  coco/bbox_mAP_l: 0.5260  data_time: 0.1234  time: 0.2163

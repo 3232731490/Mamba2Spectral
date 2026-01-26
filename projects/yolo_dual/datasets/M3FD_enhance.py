@@ -8,7 +8,7 @@ train_ann_file = 'train.json'
 train_data_prefix = 'train/enhance/rgb'  # Prefix of train image path
 # Path of val annotation file
 val_ann_file = 'val_partion.json'
-val_data_prefix = 'val/enhance/rgb'  # Prefix of val image path
+val_data_prefix = 'val/enhance/tir'  # Prefix of val image path
 
 num_classes = 6  # Number of classes for classification
 classes = ('Car', 'Truck', 'People','Bus','Lamp','Motorcycle')

@@ -1,0 +1,3225 @@
+2025/06/24 12:49:07 - mmengine - INFO - 
+------------------------------------------------------------
+System environment:
+    sys.platform: linux
+    Python: 3.10.16 (main, Dec 11 2024, 16:24:50) [GCC 11.2.0]
+    CUDA available: True
+    MUSA available: False
+    numpy_random_seed: 819154249
+    GPU 0: NVIDIA A40
+    CUDA_HOME: /usr/local/cuda
+    NVCC: Cuda compilation tools, release 12.0, V12.0.76
+    GCC: gcc (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0
+    PyTorch: 2.3.1
+    PyTorch compiling details: PyTorch built with:
+  - GCC 9.3
+  - C++ Version: 201703
+  - Intel(R) oneAPI Math Kernel Library Version 2023.1-Product Build 20230303 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v3.3.6 (Git Hash 86e6af5974177e513fd3fee58425e1063e7f1361)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX512
+  - CUDA Runtime 12.1
+  - NVCC architecture flags: -gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_90,code=sm_90
+  - CuDNN 8.9.2
+  - Magma 2.6.1
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=12.1, CUDNN_VERSION=8.9.2, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -D_GLIBCXX_USE_CXX11_ABI=0 -fabi-version=11 -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOROCTRACER -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -O2 -fPIC -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-strict-overflow -Wno-strict-aliasing -Wno-stringop-overflow -Wsuggest-override -Wno-psabi -Wno-error=pedantic -Wno-error=old-style-cast -Wno-missing-braces -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=2.3.1, USE_CUDA=ON, USE_CUDNN=ON, USE_CUSPARSELT=1, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, 
+
+    TorchVision: 0.18.1
+    OpenCV: 4.11.0
+    MMEngine: 0.10.7
+
+Runtime environment:
+    cudnn_benchmark: True
+    mp_cfg: {'mp_start_method': 'fork', 'opencv_num_threads': 0}
+    dist_cfg: {'backend': 'nccl'}
+    seed: 819154249
+    Distributed launcher: none
+    Distributed training: False
+    GPU number: 1
+------------------------------------------------------------
+
+2025/06/24 12:49:08 - mmengine - INFO - Config:
+_backend_args = None
+_multiscale_resize_transforms = [
+    dict(
+        transforms=[
+            dict(scale=(
+                640,
+                640,
+            ), type='YOLOv5KeepRatioResize'),
+            dict(
+                allow_scale_up=False,
+                pad_val=dict(img=114),
+                scale=(
+                    640,
+                    640,
+                ),
+                type='LetterResize'),
+        ],
+        type='Compose'),
+    dict(
+        transforms=[
+            dict(scale=(
+                320,
+                320,
+            ), type='YOLOv5KeepRatioResize'),
+            dict(
+                allow_scale_up=False,
+                pad_val=dict(img=114),
+                scale=(
+                    320,
+                    320,
+                ),
+                type='LetterResize'),
+        ],
+        type='Compose'),
+    dict(
+        transforms=[
+            dict(scale=(
+                960,
+                960,
+            ), type='YOLOv5KeepRatioResize'),
+            dict(
+                allow_scale_up=False,
+                pad_val=dict(img=114),
+                scale=(
+                    960,
+                    960,
+                ),
+                type='LetterResize'),
+        ],
+        type='Compose'),
+]
+affine_scale = 0.5
+after_pre_transformer = [
+    dict(
+        border=(
+            -320,
+            -256,
+        ),
+        border_val=(
+            114,
+            114,
+            114,
+        ),
+        max_aspect_ratio=100,
+        max_rotate_degree=0.0,
+        max_shear_degree=0.0,
+        scaling_ratio_range=(
+            0.5,
+            1.5,
+        ),
+        type='YOLOv5RandomAffine'),
+]
+albu_train_transforms = [
+    dict(p=0.01, type='Blur'),
+    dict(p=0.01, type='MedianBlur'),
+    dict(p=0.01, type='ToGray'),
+    dict(p=0.01, type='CLAHE'),
+]
+backend_args = None
+base_lr = 0.01
+batch_shapes_cfg = None
+before_last_transformer = [
+    dict(type='YOLOv5HSVRandomAug'),
+    dict(prob=0.5, type='mmdet.RandomFlip'),
+]
+class_name = (
+    'car',
+    'person',
+    'bicycle',
+)
+classes = (
+    'car',
+    'truck',
+    'bus',
+    'van',
+    'freight_car',
+)
+close_mosaic_epochs = 10
+custom_hooks = [
+    dict(
+        ema_type='ExpMomentumEMA',
+        momentum=0.0001,
+        priority=49,
+        strict_load=False,
+        type='EMAHook',
+        update_buffers=True),
+    dict(
+        switch_epoch=190,
+        switch_pipeline=[
+            dict(backend_args=None, type='LoadImageFromFile'),
+            dict(backend_args=None, type='LoadImageFromFile2'),
+            dict(type='LoadAnnotations', with_bbox=True, with_mask=False),
+            dict(
+                transforms=[
+                    dict(scale=(
+                        640,
+                        512,
+                    ), type='YOLOv5KeepRatioResize'),
+                    dict(
+                        border_val=(
+                            114,
+                            114,
+                            114,
+                        ),
+                        max_aspect_ratio=100,
+                        max_rotate_degree=0.0,
+                        max_shear_degree=0.0,
+                        scaling_ratio_range=(
+                            0.5,
+                            1.5,
+                        ),
+                        type='YOLOv5RandomAffine'),
+                ],
+                type='Image2Broadcaster'),
+            dict(
+                bbox_params=dict(
+                    format='pascal_voc',
+                    label_fields=[
+                        'gt_bboxes_labels',
+                        'gt_ignore_flags',
+                    ],
+                    type='BboxParams'),
+                keymap=dict(gt_bboxes='bboxes', img='image'),
+                transforms=[
+                    dict(p=0.01, type='Blur'),
+                    dict(p=0.01, type='MedianBlur'),
+                    dict(p=0.01, type='ToGray'),
+                    dict(p=0.01, type='CLAHE'),
+                ],
+                type='Dual_Albu'),
+            dict(
+                transforms=[
+                    dict(type='YOLOv5HSVRandomAug'),
+                    dict(prob=0.5, type='mmdet.RandomFlip'),
+                ],
+                type='Image2Broadcaster'),
+            dict(
+                meta_keys=(
+                    'img_id',
+                    'img_path',
+                    'ori_shape',
+                    'img_shape',
+                    'img_path2',
+                    'ori_shape2',
+                    'img_shape2',
+                    'scale_factor',
+                ),
+                type='DoublePackDetInputs'),
+        ],
+        type='mmdet.PipelineSwitchHook'),
+]
+data_root = '/data/nl/mmdet2spectral/data/DroneVehicle_partion/'
+dataset_type = 'DualStreamCocoDataset'
+deepen_factor = 0.67
+default_hooks = dict(
+    checkpoint=dict(
+        interval=1,
+        max_keep_ckpts=3,
+        save_best='coco/bbox_mAP_50',
+        type='CheckpointHook'),
+    logger=dict(interval=50, type='LoggerHook'),
+    param_scheduler=dict(
+        lr_factor=0.01,
+        max_epochs=200,
+        scheduler_type='linear',
+        type='YOLOv5ParamSchedulerHook'),
+    sampler_seed=dict(type='DistSamplerSeedHook'),
+    timer=dict(type='IterTimerHook'),
+    visualization=dict(type='mmdet.DetVisualizationHook'))
+default_scope = 'mmyolo'
+env_cfg = dict(
+    cudnn_benchmark=True,
+    dist_cfg=dict(backend='nccl'),
+    mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0))
+img_scale = (
+    640,
+    512,
+)
+img_scales = [
+    (
+        640,
+        640,
+    ),
+    (
+        320,
+        320,
+    ),
+    (
+        960,
+        960,
+    ),
+]
+last_stage_out_channels = 1024
+last_transform = [
+    dict(
+        bbox_params=dict(
+            format='pascal_voc',
+            label_fields=[
+                'gt_bboxes_labels',
+                'gt_ignore_flags',
+            ],
+            type='BboxParams'),
+        keymap=dict(gt_bboxes='bboxes', img='image'),
+        transforms=[
+            dict(p=0.01, type='Blur'),
+            dict(p=0.01, type='MedianBlur'),
+            dict(p=0.01, type='ToGray'),
+            dict(p=0.01, type='CLAHE'),
+        ],
+        type='Dual_Albu'),
+    dict(
+        transforms=[
+            dict(type='YOLOv5HSVRandomAug'),
+            dict(prob=0.5, type='mmdet.RandomFlip'),
+        ],
+        type='Image2Broadcaster'),
+    dict(
+        meta_keys=(
+            'img_id',
+            'img_path',
+            'ori_shape',
+            'img_shape',
+            'img_path2',
+            'ori_shape2',
+            'img_shape2',
+            'scale_factor',
+        ),
+        type='DoublePackDetInputs'),
+]
+launcher = 'none'
+load_from = None
+log_level = 'INFO'
+log_processor = dict(by_epoch=True, type='LogProcessor', window_size=50)
+loss_bbox_weight = 7.5
+loss_cls_weight = 0.5
+loss_dfl_weight = 0.375
+lr_factor = 0.01
+max_aspect_ratio = 100
+max_epochs = 200
+max_keep_ckpts = 3
+metainfo = dict(
+    classes=(
+        'car',
+        'truck',
+        'bus',
+        'van',
+        'freight_car',
+    ),
+    palette=[
+        (
+            20,
+            220,
+            60,
+        ),
+        (
+            119,
+            11,
+            32,
+        ),
+        (
+            0,
+            0,
+            142,
+        ),
+        (
+            106,
+            0,
+            228,
+        ),
+        (
+            0,
+            60,
+            100,
+        ),
+    ])
+model = dict(
+    backbone=dict(
+        act_cfg=dict(inplace=True, type='SiLU'),
+        deepen_factor=0.67,
+        fusion_block=dict(
+            in_channels=[
+                128,
+                256,
+                512,
+            ],
+            mamba_bi=[
+                False,
+                False,
+                False,
+            ],
+            mamba_size=[
+                (
+                    128,
+                    160,
+                ),
+                (
+                    64,
+                    80,
+                ),
+                (
+                    32,
+                    40,
+                ),
+            ],
+            transformer_fusion=True,
+            transformer_horz_anchor=[
+                16,
+                10,
+                8,
+            ],
+            transformer_loops_num=1,
+            transformer_mod_weight=True,
+            transformer_vert_anchor=[
+                16,
+                10,
+                8,
+            ],
+            type='MambaTransformerBlock'),
+        fusion_flag=True,
+        fusion_indices=(
+            2,
+            3,
+            4,
+        ),
+        fusion_module=dict(in_channels=[
+            128,
+            256,
+            512,
+        ], type='BaseFusion'),
+        head_input_module=dict(
+            in_channels=[
+                256,
+                512,
+                1024,
+            ], type='DetectionHeadFusionModule'),
+        input_channels=3,
+        norm_cfg=dict(eps=0.001, momentum=0.03, type='BN'),
+        out_indices=(
+            2,
+            3,
+            4,
+        ),
+        stages=dict(
+            settings=dict(
+                act_cfg=dict(inplace=True, type='SiLU'),
+                add_identity=[
+                    True,
+                    True,
+                    True,
+                    True,
+                ],
+                deepen_factor=0.67,
+                in_channels=[
+                    64,
+                    128,
+                    256,
+                    512,
+                ],
+                norm_cfg=dict(eps=0.001, momentum=0.03, type='BN'),
+                num_blocks=[
+                    3,
+                    6,
+                    6,
+                    3,
+                ],
+                out_channels=[
+                    128,
+                    256,
+                    512,
+                    1024,
+                ],
+                use_spp=[
+                    False,
+                    False,
+                    False,
+                    True,
+                ],
+                widen_factor=0.75),
+            type='yoloV8CSPDarknet'),
+        stem_block=dict(
+            act_cfg=dict(inplace=True, type='SiLU'),
+            in_channels=3,
+            kernel_size=3,
+            norm_cfg=dict(eps=0.001, momentum=0.03, type='BN'),
+            out_channels=64,
+            padding=1,
+            stride=2,
+            type='ConvStem',
+            widen_factor=0.75),
+        type='GeneralDualBackbone',
+        widen_factor=0.75),
+    bbox_head=dict(
+        bbox_coder=dict(type='DistancePointBBoxCoder'),
+        head_module=dict(
+            act_cfg=dict(inplace=True, type='SiLU'),
+            featmap_strides=[
+                8,
+                16,
+                32,
+            ],
+            in_channels=[
+                256,
+                512,
+                1024,
+            ],
+            norm_cfg=dict(eps=0.001, momentum=0.03, type='BN'),
+            num_classes=5,
+            reg_max=16,
+            type='YOLOv8HeadModule',
+            widen_factor=0.75),
+        loss_bbox=dict(
+            bbox_format='xyxy',
+            iou_mode='ciou',
+            loss_weight=7.5,
+            reduction='sum',
+            return_iou=False,
+            type='IoULoss'),
+        loss_cls=dict(
+            loss_weight=0.5,
+            reduction='none',
+            type='mmdet.CrossEntropyLoss',
+            use_sigmoid=True),
+        loss_dfl=dict(
+            loss_weight=0.375,
+            reduction='mean',
+            type='mmdet.DistributionFocalLoss'),
+        prior_generator=dict(
+            offset=0.5, strides=[
+                8,
+                16,
+                32,
+            ], type='mmdet.MlvlPointGenerator'),
+        type='YOLOv8Head'),
+    data_preprocessor=dict(
+        bgr_to_rgb=True,
+        mean=[
+            123.675,
+            116.28,
+            103.53,
+        ],
+        std=[
+            58.395,
+            57.12,
+            57.375,
+        ],
+        type='DualInputDetDataPreprocessor'),
+    neck=dict(
+        act_cfg=dict(inplace=True, type='SiLU'),
+        deepen_factor=0.67,
+        in_channels=[
+            256,
+            512,
+            1024,
+        ],
+        norm_cfg=dict(eps=0.001, momentum=0.03, type='BN'),
+        num_csp_blocks=3,
+        out_channels=[
+            256,
+            512,
+            1024,
+        ],
+        type='YOLOv8PAFPN',
+        widen_factor=0.75),
+    test_cfg=dict(
+        max_per_img=300,
+        multi_label=True,
+        nms=dict(iou_threshold=0.7, type='nms'),
+        nms_pre=30000,
+        score_thr=0.001),
+    train_cfg=dict(
+        assigner=dict(
+            alpha=0.5,
+            beta=6.0,
+            eps=1e-09,
+            num_classes=5,
+            topk=10,
+            type='BatchTaskAlignedAssigner',
+            use_ciou=True)),
+    type='YOLODualNeckDetector')
+model_test_cfg = dict(
+    max_per_img=300,
+    multi_label=True,
+    nms=dict(iou_threshold=0.7, type='nms'),
+    nms_pre=30000,
+    score_thr=0.001)
+norm_cfg = dict(eps=0.001, momentum=0.03, type='BN')
+num_classes = 5
+num_det_layers = 3
+optim_wrapper = dict(
+    clip_grad=dict(max_norm=10.0),
+    constructor='YOLOv5OptimizerConstructor',
+    optimizer=dict(
+        batch_size_per_gpu=8,
+        lr=0.01,
+        momentum=0.937,
+        nesterov=True,
+        type='SGD',
+        weight_decay=0.0005),
+    type='OptimWrapper')
+param_scheduler = None
+persistent_workers = True
+pre_transform = [
+    dict(backend_args=None, type='LoadImageFromFile'),
+    dict(backend_args=None, type='LoadImageFromFile2'),
+    dict(type='LoadAnnotations', with_bbox=True, with_mask=False),
+]
+resume = True
+save_epoch_intervals = 1
+strides = [
+    8,
+    16,
+    32,
+]
+tal_alpha = 0.5
+tal_beta = 6.0
+tal_topk = 10
+test_cfg = dict(type='TestLoop')
+test_dataloader = dict(
+    batch_size=1,
+    dataset=dict(
+        ann_file='val.json',
+        batch_shapes_cfg=None,
+        data_prefix=dict(img='val/low/rgb'),
+        data_root='/data/nl/mmdet2spectral/data/DroneVehicle_partion/',
+        metainfo=dict(
+            classes=(
+                'car',
+                'truck',
+                'bus',
+                'van',
+                'freight_car',
+            ),
+            palette=[
+                (
+                    20,
+                    220,
+                    60,
+                ),
+                (
+                    119,
+                    11,
+                    32,
+                ),
+                (
+                    0,
+                    0,
+                    142,
+                ),
+                (
+                    106,
+                    0,
+                    228,
+                ),
+                (
+                    0,
+                    60,
+                    100,
+                ),
+            ]),
+        pipeline=[
+            dict(backend_args=None, type='LoadImageFromFile'),
+            dict(backend_args=None, type='LoadImageFromFile2'),
+            dict(_scope_='mmdet', type='LoadAnnotations', with_bbox=True),
+            dict(
+                transforms=[
+                    dict(scale=(
+                        640,
+                        512,
+                    ), type='YOLOv5KeepRatioResize'),
+                ],
+                type='Image2Broadcaster'),
+            dict(
+                meta_keys=(
+                    'img_id',
+                    'img_path',
+                    'ori_shape',
+                    'img_shape',
+                    'img_path2',
+                    'ori_shape2',
+                    'img_shape2',
+                    'scale_factor',
+                ),
+                type='DoublePackDetInputs'),
+        ],
+        test_mode=True,
+        type='DualStreamCocoDataset'),
+    drop_last=False,
+    num_workers=2,
+    persistent_workers=True,
+    pin_memory=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+test_evaluator = dict(
+    ann_file='/data/nl/mmdet2spectral/data/DroneVehicle_partion/val.json',
+    classwise=True,
+    metric='bbox',
+    proposal_nums=(
+        100,
+        1,
+        10,
+    ),
+    type='mmdet.CocoMetric')
+test_pipeline = [
+    dict(backend_args=None, type='LoadImageFromFile'),
+    dict(backend_args=None, type='LoadImageFromFile2'),
+    dict(_scope_='mmdet', type='LoadAnnotations', with_bbox=True),
+    dict(
+        transforms=[
+            dict(scale=(
+                640,
+                512,
+            ), type='YOLOv5KeepRatioResize'),
+        ],
+        type='Image2Broadcaster'),
+    dict(
+        meta_keys=(
+            'img_id',
+            'img_path',
+            'ori_shape',
+            'img_shape',
+            'img_path2',
+            'ori_shape2',
+            'img_shape2',
+            'scale_factor',
+        ),
+        type='DoublePackDetInputs'),
+]
+test_transformer = [
+    dict(scale=(
+        640,
+        512,
+    ), type='YOLOv5KeepRatioResize'),
+]
+train_ann_file = 'train.json'
+train_batch_size_per_gpu = 8
+train_cfg = dict(
+    dynamic_intervals=[
+        (
+            190,
+            1,
+        ),
+    ],
+    max_epochs=200,
+    type='EpochBasedTrainLoop',
+    val_interval=1)
+train_data_prefix = 'train/low/rgb'
+train_dataloader = dict(
+    batch_size=8,
+    collate_fn=dict(type='dual_yolo_collate'),
+    dataset=dict(
+        ann_file='train.json',
+        data_prefix=dict(img='train/low/rgb'),
+        data_root='/data/nl/mmdet2spectral/data/DroneVehicle_partion/',
+        filter_cfg=dict(filter_empty_gt=False, min_size=32),
+        metainfo=dict(
+            classes=(
+                'car',
+                'truck',
+                'bus',
+                'van',
+                'freight_car',
+            ),
+            palette=[
+                (
+                    20,
+                    220,
+                    60,
+                ),
+                (
+                    119,
+                    11,
+                    32,
+                ),
+                (
+                    0,
+                    0,
+                    142,
+                ),
+                (
+                    106,
+                    0,
+                    228,
+                ),
+                (
+                    0,
+                    60,
+                    100,
+                ),
+            ]),
+        pipeline=[
+            dict(backend_args=None, type='LoadImageFromFile'),
+            dict(backend_args=None, type='LoadImageFromFile2'),
+            dict(type='LoadAnnotations', with_bbox=True, with_mask=False),
+            dict(
+                img_scale=(
+                    640,
+                    512,
+                ),
+                pad_val=114.0,
+                pre_transform=[
+                    dict(backend_args=None, type='LoadImageFromFile'),
+                    dict(backend_args=None, type='LoadImageFromFile2'),
+                    dict(
+                        type='LoadAnnotations',
+                        with_bbox=True,
+                        with_mask=False),
+                ],
+                type='Dual_Mosaic',
+                use_cached=False),
+            dict(
+                transforms=[
+                    dict(
+                        border=(
+                            -320,
+                            -256,
+                        ),
+                        border_val=(
+                            114,
+                            114,
+                            114,
+                        ),
+                        max_aspect_ratio=100,
+                        max_rotate_degree=0.0,
+                        max_shear_degree=0.0,
+                        scaling_ratio_range=(
+                            0.5,
+                            1.5,
+                        ),
+                        type='YOLOv5RandomAffine'),
+                ],
+                type='Image2Broadcaster'),
+            dict(
+                bbox_params=dict(
+                    format='pascal_voc',
+                    label_fields=[
+                        'gt_bboxes_labels',
+                        'gt_ignore_flags',
+                    ],
+                    type='BboxParams'),
+                keymap=dict(gt_bboxes='bboxes', img='image'),
+                transforms=[
+                    dict(p=0.01, type='Blur'),
+                    dict(p=0.01, type='MedianBlur'),
+                    dict(p=0.01, type='ToGray'),
+                    dict(p=0.01, type='CLAHE'),
+                ],
+                type='Dual_Albu'),
+            dict(
+                transforms=[
+                    dict(type='YOLOv5HSVRandomAug'),
+                    dict(prob=0.5, type='mmdet.RandomFlip'),
+                ],
+                type='Image2Broadcaster'),
+            dict(
+                meta_keys=(
+                    'img_id',
+                    'img_path',
+                    'ori_shape',
+                    'img_shape',
+                    'img_path2',
+                    'ori_shape2',
+                    'img_shape2',
+                    'scale_factor',
+                ),
+                type='DoublePackDetInputs'),
+        ],
+        type='DualStreamCocoDataset'),
+    num_workers=8,
+    persistent_workers=True,
+    pin_memory=True,
+    sampler=dict(shuffle=True, type='DefaultSampler'))
+train_num_workers = 8
+train_pipeline = [
+    dict(backend_args=None, type='LoadImageFromFile'),
+    dict(backend_args=None, type='LoadImageFromFile2'),
+    dict(type='LoadAnnotations', with_bbox=True, with_mask=False),
+    dict(
+        img_scale=(
+            640,
+            512,
+        ),
+        pad_val=114.0,
+        pre_transform=[
+            dict(backend_args=None, type='LoadImageFromFile'),
+            dict(backend_args=None, type='LoadImageFromFile2'),
+            dict(type='LoadAnnotations', with_bbox=True, with_mask=False),
+        ],
+        type='Dual_Mosaic',
+        use_cached=False),
+    dict(
+        transforms=[
+            dict(
+                border=(
+                    -320,
+                    -256,
+                ),
+                border_val=(
+                    114,
+                    114,
+                    114,
+                ),
+                max_aspect_ratio=100,
+                max_rotate_degree=0.0,
+                max_shear_degree=0.0,
+                scaling_ratio_range=(
+                    0.5,
+                    1.5,
+                ),
+                type='YOLOv5RandomAffine'),
+        ],
+        type='Image2Broadcaster'),
+    dict(
+        bbox_params=dict(
+            format='pascal_voc',
+            label_fields=[
+                'gt_bboxes_labels',
+                'gt_ignore_flags',
+            ],
+            type='BboxParams'),
+        keymap=dict(gt_bboxes='bboxes', img='image'),
+        transforms=[
+            dict(p=0.01, type='Blur'),
+            dict(p=0.01, type='MedianBlur'),
+            dict(p=0.01, type='ToGray'),
+            dict(p=0.01, type='CLAHE'),
+        ],
+        type='Dual_Albu'),
+    dict(
+        transforms=[
+            dict(type='YOLOv5HSVRandomAug'),
+            dict(prob=0.5, type='mmdet.RandomFlip'),
+        ],
+        type='Image2Broadcaster'),
+    dict(
+        meta_keys=(
+            'img_id',
+            'img_path',
+            'ori_shape',
+            'img_shape',
+            'img_path2',
+            'ori_shape2',
+            'img_shape2',
+            'scale_factor',
+        ),
+        type='DoublePackDetInputs'),
+]
+train_pipeline_stage2 = [
+    dict(backend_args=None, type='LoadImageFromFile'),
+    dict(backend_args=None, type='LoadImageFromFile2'),
+    dict(type='LoadAnnotations', with_bbox=True, with_mask=False),
+    dict(
+        transforms=[
+            dict(scale=(
+                640,
+                512,
+            ), type='YOLOv5KeepRatioResize'),
+            dict(
+                border_val=(
+                    114,
+                    114,
+                    114,
+                ),
+                max_aspect_ratio=100,
+                max_rotate_degree=0.0,
+                max_shear_degree=0.0,
+                scaling_ratio_range=(
+                    0.5,
+                    1.5,
+                ),
+                type='YOLOv5RandomAffine'),
+        ],
+        type='Image2Broadcaster'),
+    dict(
+        bbox_params=dict(
+            format='pascal_voc',
+            label_fields=[
+                'gt_bboxes_labels',
+                'gt_ignore_flags',
+            ],
+            type='BboxParams'),
+        keymap=dict(gt_bboxes='bboxes', img='image'),
+        transforms=[
+            dict(p=0.01, type='Blur'),
+            dict(p=0.01, type='MedianBlur'),
+            dict(p=0.01, type='ToGray'),
+            dict(p=0.01, type='CLAHE'),
+        ],
+        type='Dual_Albu'),
+    dict(
+        transforms=[
+            dict(type='YOLOv5HSVRandomAug'),
+            dict(prob=0.5, type='mmdet.RandomFlip'),
+        ],
+        type='Image2Broadcaster'),
+    dict(
+        meta_keys=(
+            'img_id',
+            'img_path',
+            'ori_shape',
+            'img_shape',
+            'img_path2',
+            'ori_shape2',
+            'img_shape2',
+            'scale_factor',
+        ),
+        type='DoublePackDetInputs'),
+]
+train_stage2_transformer = [
+    dict(scale=(
+        640,
+        512,
+    ), type='YOLOv5KeepRatioResize'),
+    dict(
+        border_val=(
+            114,
+            114,
+            114,
+        ),
+        max_aspect_ratio=100,
+        max_rotate_degree=0.0,
+        max_shear_degree=0.0,
+        scaling_ratio_range=(
+            0.5,
+            1.5,
+        ),
+        type='YOLOv5RandomAffine'),
+]
+tta_model = dict(
+    tta_cfg=dict(max_per_img=300, nms=dict(iou_threshold=0.65, type='nms')),
+    type='mmdet.DetTTAModel')
+tta_pipeline = [
+    dict(backend_args=None, type='LoadImageFromFile'),
+    dict(
+        transforms=[
+            [
+                dict(
+                    transforms=[
+                        dict(scale=(
+                            640,
+                            640,
+                        ), type='YOLOv5KeepRatioResize'),
+                        dict(
+                            allow_scale_up=False,
+                            pad_val=dict(img=114),
+                            scale=(
+                                640,
+                                640,
+                            ),
+                            type='LetterResize'),
+                    ],
+                    type='Compose'),
+                dict(
+                    transforms=[
+                        dict(scale=(
+                            320,
+                            320,
+                        ), type='YOLOv5KeepRatioResize'),
+                        dict(
+                            allow_scale_up=False,
+                            pad_val=dict(img=114),
+                            scale=(
+                                320,
+                                320,
+                            ),
+                            type='LetterResize'),
+                    ],
+                    type='Compose'),
+                dict(
+                    transforms=[
+                        dict(scale=(
+                            960,
+                            960,
+                        ), type='YOLOv5KeepRatioResize'),
+                        dict(
+                            allow_scale_up=False,
+                            pad_val=dict(img=114),
+                            scale=(
+                                960,
+                                960,
+                            ),
+                            type='LetterResize'),
+                    ],
+                    type='Compose'),
+            ],
+            [
+                dict(prob=1.0, type='mmdet.RandomFlip'),
+                dict(prob=0.0, type='mmdet.RandomFlip'),
+            ],
+            [
+                dict(type='mmdet.LoadAnnotations', with_bbox=True),
+            ],
+            [
+                dict(
+                    meta_keys=(
+                        'img_id',
+                        'img_path',
+                        'ori_shape',
+                        'img_shape',
+                        'scale_factor',
+                        'pad_param',
+                        'flip',
+                        'flip_direction',
+                    ),
+                    type='mmdet.PackDetInputs'),
+            ],
+        ],
+        type='TestTimeAug'),
+]
+val_ann_file = 'val.json'
+val_batch_size_per_gpu = 1
+val_cfg = dict(type='ValLoop')
+val_data_prefix = 'val/low/rgb'
+val_dataloader = dict(
+    batch_size=1,
+    dataset=dict(
+        ann_file='val.json',
+        batch_shapes_cfg=None,
+        data_prefix=dict(img='val/low/rgb'),
+        data_root='/data/nl/mmdet2spectral/data/DroneVehicle_partion/',
+        metainfo=dict(
+            classes=(
+                'car',
+                'truck',
+                'bus',
+                'van',
+                'freight_car',
+            ),
+            palette=[
+                (
+                    20,
+                    220,
+                    60,
+                ),
+                (
+                    119,
+                    11,
+                    32,
+                ),
+                (
+                    0,
+                    0,
+                    142,
+                ),
+                (
+                    106,
+                    0,
+                    228,
+                ),
+                (
+                    0,
+                    60,
+                    100,
+                ),
+            ]),
+        pipeline=[
+            dict(backend_args=None, type='LoadImageFromFile'),
+            dict(backend_args=None, type='LoadImageFromFile2'),
+            dict(_scope_='mmdet', type='LoadAnnotations', with_bbox=True),
+            dict(
+                transforms=[
+                    dict(scale=(
+                        640,
+                        512,
+                    ), type='YOLOv5KeepRatioResize'),
+                ],
+                type='Image2Broadcaster'),
+            dict(
+                meta_keys=(
+                    'img_id',
+                    'img_path',
+                    'ori_shape',
+                    'img_shape',
+                    'img_path2',
+                    'ori_shape2',
+                    'img_shape2',
+                    'scale_factor',
+                ),
+                type='DoublePackDetInputs'),
+        ],
+        test_mode=True,
+        type='DualStreamCocoDataset'),
+    drop_last=False,
+    num_workers=2,
+    persistent_workers=True,
+    pin_memory=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+val_evaluator = dict(
+    ann_file='/data/nl/mmdet2spectral/data/DroneVehicle_partion/val.json',
+    classwise=True,
+    metric='bbox',
+    proposal_nums=(
+        100,
+        1,
+        10,
+    ),
+    type='mmdet.CocoMetric')
+val_interval_stage2 = 1
+val_num_workers = 2
+vis_backends = [
+    dict(type='LocalVisBackend'),
+]
+visualizer = dict(
+    name='visualizer',
+    type='mmdet.DetLocalVisualizer',
+    vis_backends=[
+        dict(type='LocalVisBackend'),
+    ])
+weight_decay = 0.0005
+widen_factor = 0.75
+work_dir = 'work_dirs/DroneVehicle/2025_06_22/yolov8_mambatransformer_lightfusion'
+
+2025/06/24 12:49:11 - mmengine - INFO - Distributed training is not used, all SyncBatchNorm (SyncBN) layers in the model will be automatically reverted to BatchNormXd layers if they are used.
+2025/06/24 12:49:11 - mmengine - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(49          ) EMAHook                            
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_load_checkpoint:
+(49          ) EMAHook                            
+ -------------------- 
+before_train:
+(9           ) YOLOv5ParamSchedulerHook           
+(VERY_HIGH   ) RuntimeInfoHook                    
+(49          ) EMAHook                            
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DistSamplerSeedHook                
+(NORMAL      ) PipelineSwitchHook                 
+ -------------------- 
+before_train_iter:
+(9           ) YOLOv5ParamSchedulerHook           
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(9           ) YOLOv5ParamSchedulerHook           
+(VERY_HIGH   ) RuntimeInfoHook                    
+(49          ) EMAHook                            
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train_epoch:
+(9           ) YOLOv5ParamSchedulerHook           
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_val_epoch:
+(49          ) EMAHook                            
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_val_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DetVisualizationHook               
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_val_epoch:
+(9           ) YOLOv5ParamSchedulerHook           
+(VERY_HIGH   ) RuntimeInfoHook                    
+(49          ) EMAHook                            
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_save_checkpoint:
+(49          ) EMAHook                            
+ -------------------- 
+after_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_test_epoch:
+(49          ) EMAHook                            
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_test_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_test_iter:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DetVisualizationHook               
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(49          ) EMAHook                            
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_run:
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+2025/06/24 12:49:13 - mmengine - INFO - Optimizer groups: 233 .bias, 236 conv.weight, 128 other
+Name of parameter - Initialization information
+
+backbone.stem_1.conv.conv.weight - torch.Size([48, 3, 3, 3]): 
+Initialized by user-defined `init_weights` in ConvModule  
+
+backbone.stem_1.conv.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stem_1.conv.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stem_2.conv.conv.weight - torch.Size([48, 3, 3, 3]): 
+Initialized by user-defined `init_weights` in ConvModule  
+
+backbone.stem_2.conv.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stem_2.conv.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.0.conv.weight - torch.Size([96, 48, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.0.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.0.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.main_conv.conv.weight - torch.Size([96, 96, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.main_conv.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.main_conv.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.final_conv.conv.weight - torch.Size([96, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.final_conv.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.final_conv.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.blocks.0.conv1.conv.weight - torch.Size([48, 48, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.blocks.0.conv1.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.blocks.0.conv1.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.blocks.0.conv2.conv.weight - torch.Size([48, 48, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.blocks.0.conv2.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.blocks.0.conv2.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.blocks.1.conv1.conv.weight - torch.Size([48, 48, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.blocks.1.conv1.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.blocks.1.conv1.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.blocks.1.conv2.conv.weight - torch.Size([48, 48, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.blocks.1.conv2.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_1.1.blocks.1.conv2.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.0.conv.weight - torch.Size([96, 48, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.0.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.0.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.main_conv.conv.weight - torch.Size([96, 96, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.main_conv.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.main_conv.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.final_conv.conv.weight - torch.Size([96, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.final_conv.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.final_conv.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.blocks.0.conv1.conv.weight - torch.Size([48, 48, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.blocks.0.conv1.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.blocks.0.conv1.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.blocks.0.conv2.conv.weight - torch.Size([48, 48, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.blocks.0.conv2.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.blocks.0.conv2.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.blocks.1.conv1.conv.weight - torch.Size([48, 48, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.blocks.1.conv1.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.blocks.1.conv1.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.blocks.1.conv2.conv.weight - torch.Size([48, 48, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.blocks.1.conv2.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage1_2.1.blocks.1.conv2.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.0.conv.weight - torch.Size([192, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.0.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.0.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.main_conv.conv.weight - torch.Size([192, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.main_conv.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.main_conv.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.final_conv.conv.weight - torch.Size([192, 576, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.final_conv.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.final_conv.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.0.conv1.conv.weight - torch.Size([96, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.0.conv1.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.0.conv1.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.0.conv2.conv.weight - torch.Size([96, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.0.conv2.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.0.conv2.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.1.conv1.conv.weight - torch.Size([96, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.1.conv1.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.1.conv1.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.1.conv2.conv.weight - torch.Size([96, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.1.conv2.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.1.conv2.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.2.conv1.conv.weight - torch.Size([96, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.2.conv1.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.2.conv1.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.2.conv2.conv.weight - torch.Size([96, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.2.conv2.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.2.conv2.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.3.conv1.conv.weight - torch.Size([96, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.3.conv1.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.3.conv1.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.3.conv2.conv.weight - torch.Size([96, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.3.conv2.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_1.1.blocks.3.conv2.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.0.conv.weight - torch.Size([192, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.0.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.0.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.main_conv.conv.weight - torch.Size([192, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.main_conv.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.main_conv.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.final_conv.conv.weight - torch.Size([192, 576, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.final_conv.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.final_conv.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.0.conv1.conv.weight - torch.Size([96, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.0.conv1.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.0.conv1.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.0.conv2.conv.weight - torch.Size([96, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.0.conv2.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.0.conv2.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.1.conv1.conv.weight - torch.Size([96, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.1.conv1.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.1.conv1.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.1.conv2.conv.weight - torch.Size([96, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.1.conv2.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.1.conv2.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.2.conv1.conv.weight - torch.Size([96, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.2.conv1.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.2.conv1.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.2.conv2.conv.weight - torch.Size([96, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.2.conv2.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.2.conv2.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.3.conv1.conv.weight - torch.Size([96, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.3.conv1.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.3.conv1.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.3.conv2.conv.weight - torch.Size([96, 96, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.3.conv2.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage2_2.1.blocks.3.conv2.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.pos_embed_r - torch.Size([1, 64, 96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.pos_embed_t - torch.Size([1, 64, 96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.patch_embed.proj.weight - torch.Size([96, 96, 16, 20]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.patch_embed.proj.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.in_proj_r.weight - torch.Size([384, 96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.in_proj_t.weight - torch.Size([384, 96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.conv2d_r.0.weight - torch.Size([192, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.conv2d_r.0.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.conv2d_r.1.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.conv2d_r.1.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.conv2d_t.0.weight - torch.Size([192, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.conv2d_t.0.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.conv2d_t.1.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.conv2d_t.1.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.SSM_r_f.A_log - torch.Size([192, 32]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.SSM_r_f.D - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.SSM_r_f.x_proj.weight - torch.Size([76, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.SSM_r_f.dt_proj.weight - torch.Size([192, 12]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.SSM_r_f.dt_proj.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.SSM_r_f.out_norm.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.SSM_r_f.out_norm.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.SSM_t_f.A_log - torch.Size([192, 32]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.SSM_t_f.D - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.SSM_t_f.x_proj.weight - torch.Size([76, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.SSM_t_f.dt_proj.weight - torch.Size([192, 12]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.SSM_t_f.dt_proj.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.SSM_t_f.out_norm.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.SSM_t_f.out_norm.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mamba_fusion_stage.out_proj.weight - torch.Size([96, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.pos_emb_vis - torch.Size([1, 256, 96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.pos_emb_ir - torch.Size([1, 256, 96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.vis_pool_weights.w1 - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.vis_pool_weights.w2 - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.ir_pool_weights.w1 - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.ir_pool_weights.w2 - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.ln1_vis.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.ln1_vis.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.ln1_ir.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.ln1_ir.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.que_proj_vis.weight - torch.Size([96, 96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.que_proj_vis.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.key_proj_vis.weight - torch.Size([96, 96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.key_proj_vis.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.val_proj_vis.weight - torch.Size([96, 96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.val_proj_vis.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.que_proj_ir.weight - torch.Size([96, 96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.que_proj_ir.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.key_proj_ir.weight - torch.Size([96, 96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.key_proj_ir.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.val_proj_ir.weight - torch.Size([96, 96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.val_proj_ir.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.crossatt.out_proj_vis.weight - torch.Size([96, 96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.crossatt.out_proj_vis.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.crossatt.out_proj_ir.weight - torch.Size([96, 96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.crossatt.out_proj_ir.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.ln2_vis.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.ln2_vis.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.ln2_ir.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.ln2_ir.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.mlp_vis.0.weight - torch.Size([384, 96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.mlp_vis.0.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.mlp_vis.2.weight - torch.Size([96, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.mlp_vis.2.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.mlp_ir.0.weight - torch.Size([384, 96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.mlp_ir.0.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.mlp_ir.2.weight - torch.Size([96, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.mlp_ir.2.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.coef_att_vis.bias - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.coef_mlp_vis.bias - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.coef_att_ir.bias - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.crosstransformer.0.coef_mlp_ir.bias - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.out_fusion_module.conv1x1_out.conv.weight - torch.Size([96, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.out_fusion_module.conv1x1_out.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.block.out_fusion_module.conv1x1_out.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.mw.fc1.weight - torch.Size([6, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.mw.fc1.bias - torch.Size([6]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.mw.fc2.weight - torch.Size([192, 6, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.transformer_fusion_stage.mw.fc2.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.out_fusion_module.conv1x1_out.conv.weight - torch.Size([96, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.out_fusion_module.conv1x1_out.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.out_fusion_module.conv1x1_out.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mw.fc1.weight - torch.Size([6, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mw.fc1.bias - torch.Size([6]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mw.fc2.weight - torch.Size([192, 6, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block2.mw.fc2.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module2.conv_ir.weight - torch.Size([192, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module2.conv_vis.weight - torch.Size([192, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module2.se.1.weight - torch.Size([12, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module2.se.1.bias - torch.Size([12]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module2.se.3.weight - torch.Size([192, 12, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module2.se.3.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.0.conv.weight - torch.Size([384, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.0.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.0.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.main_conv.conv.weight - torch.Size([384, 384, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.main_conv.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.main_conv.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.final_conv.conv.weight - torch.Size([384, 1152, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.final_conv.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.final_conv.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.0.conv1.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.0.conv1.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.0.conv1.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.0.conv2.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.0.conv2.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.0.conv2.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.1.conv1.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.1.conv1.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.1.conv1.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.1.conv2.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.1.conv2.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.1.conv2.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.2.conv1.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.2.conv1.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.2.conv1.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.2.conv2.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.2.conv2.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.2.conv2.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.3.conv1.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.3.conv1.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.3.conv1.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.3.conv2.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.3.conv2.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_1.1.blocks.3.conv2.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.0.conv.weight - torch.Size([384, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.0.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.0.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.main_conv.conv.weight - torch.Size([384, 384, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.main_conv.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.main_conv.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.final_conv.conv.weight - torch.Size([384, 1152, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.final_conv.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.final_conv.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.0.conv1.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.0.conv1.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.0.conv1.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.0.conv2.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.0.conv2.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.0.conv2.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.1.conv1.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.1.conv1.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.1.conv1.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.1.conv2.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.1.conv2.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.1.conv2.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.2.conv1.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.2.conv1.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.2.conv1.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.2.conv2.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.2.conv2.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.2.conv2.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.3.conv1.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.3.conv1.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.3.conv1.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.3.conv2.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.3.conv2.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage3_2.1.blocks.3.conv2.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.pos_embed_r - torch.Size([1, 64, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.pos_embed_t - torch.Size([1, 64, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.patch_embed.proj.weight - torch.Size([192, 192, 8, 10]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.patch_embed.proj.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.in_proj_r.weight - torch.Size([768, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.in_proj_t.weight - torch.Size([768, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.conv2d_r.0.weight - torch.Size([384, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.conv2d_r.0.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.conv2d_r.1.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.conv2d_r.1.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.conv2d_t.0.weight - torch.Size([384, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.conv2d_t.0.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.conv2d_t.1.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.conv2d_t.1.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.SSM_r_f.A_log - torch.Size([384, 64]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.SSM_r_f.D - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.SSM_r_f.x_proj.weight - torch.Size([152, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.SSM_r_f.dt_proj.weight - torch.Size([384, 24]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.SSM_r_f.dt_proj.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.SSM_r_f.out_norm.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.SSM_r_f.out_norm.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.SSM_t_f.A_log - torch.Size([384, 64]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.SSM_t_f.D - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.SSM_t_f.x_proj.weight - torch.Size([152, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.SSM_t_f.dt_proj.weight - torch.Size([384, 24]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.SSM_t_f.dt_proj.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.SSM_t_f.out_norm.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.SSM_t_f.out_norm.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mamba_fusion_stage.out_proj.weight - torch.Size([192, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.pos_emb_vis - torch.Size([1, 100, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.pos_emb_ir - torch.Size([1, 100, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.vis_pool_weights.w1 - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.vis_pool_weights.w2 - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.ir_pool_weights.w1 - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.ir_pool_weights.w2 - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.ln1_vis.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.ln1_vis.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.ln1_ir.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.ln1_ir.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.que_proj_vis.weight - torch.Size([192, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.que_proj_vis.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.key_proj_vis.weight - torch.Size([192, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.key_proj_vis.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.val_proj_vis.weight - torch.Size([192, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.val_proj_vis.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.que_proj_ir.weight - torch.Size([192, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.que_proj_ir.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.key_proj_ir.weight - torch.Size([192, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.key_proj_ir.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.val_proj_ir.weight - torch.Size([192, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.val_proj_ir.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.crossatt.out_proj_vis.weight - torch.Size([192, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.crossatt.out_proj_vis.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.crossatt.out_proj_ir.weight - torch.Size([192, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.crossatt.out_proj_ir.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.ln2_vis.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.ln2_vis.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.ln2_ir.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.ln2_ir.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.mlp_vis.0.weight - torch.Size([768, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.mlp_vis.0.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.mlp_vis.2.weight - torch.Size([192, 768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.mlp_vis.2.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.mlp_ir.0.weight - torch.Size([768, 192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.mlp_ir.0.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.mlp_ir.2.weight - torch.Size([192, 768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.mlp_ir.2.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.coef_att_vis.bias - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.coef_mlp_vis.bias - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.coef_att_ir.bias - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.crosstransformer.0.coef_mlp_ir.bias - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.out_fusion_module.conv1x1_out.conv.weight - torch.Size([192, 384, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.out_fusion_module.conv1x1_out.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.block.out_fusion_module.conv1x1_out.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.mw.fc1.weight - torch.Size([12, 384, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.mw.fc1.bias - torch.Size([12]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.mw.fc2.weight - torch.Size([384, 12, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.transformer_fusion_stage.mw.fc2.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.out_fusion_module.conv1x1_out.conv.weight - torch.Size([192, 384, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.out_fusion_module.conv1x1_out.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.out_fusion_module.conv1x1_out.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mw.fc1.weight - torch.Size([12, 384, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mw.fc1.bias - torch.Size([12]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mw.fc2.weight - torch.Size([384, 12, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block3.mw.fc2.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module3.conv_ir.weight - torch.Size([384, 384, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module3.conv_vis.weight - torch.Size([384, 384, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module3.se.1.weight - torch.Size([24, 384, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module3.se.1.bias - torch.Size([24]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module3.se.3.weight - torch.Size([384, 24, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module3.se.3.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.0.conv.weight - torch.Size([768, 384, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.0.bn.weight - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.0.bn.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.main_conv.conv.weight - torch.Size([768, 768, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.main_conv.bn.weight - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.main_conv.bn.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.final_conv.conv.weight - torch.Size([768, 1536, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.final_conv.bn.weight - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.final_conv.bn.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.blocks.0.conv1.conv.weight - torch.Size([384, 384, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.blocks.0.conv1.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.blocks.0.conv1.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.blocks.0.conv2.conv.weight - torch.Size([384, 384, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.blocks.0.conv2.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.blocks.0.conv2.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.blocks.1.conv1.conv.weight - torch.Size([384, 384, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.blocks.1.conv1.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.blocks.1.conv1.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.blocks.1.conv2.conv.weight - torch.Size([384, 384, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.blocks.1.conv2.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.1.blocks.1.conv2.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.2.conv1.conv.weight - torch.Size([384, 768, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.2.conv1.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.2.conv1.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.2.conv2.conv.weight - torch.Size([768, 1536, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.2.conv2.bn.weight - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_1.2.conv2.bn.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.0.conv.weight - torch.Size([768, 384, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.0.bn.weight - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.0.bn.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.main_conv.conv.weight - torch.Size([768, 768, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.main_conv.bn.weight - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.main_conv.bn.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.final_conv.conv.weight - torch.Size([768, 1536, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.final_conv.bn.weight - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.final_conv.bn.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.blocks.0.conv1.conv.weight - torch.Size([384, 384, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.blocks.0.conv1.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.blocks.0.conv1.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.blocks.0.conv2.conv.weight - torch.Size([384, 384, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.blocks.0.conv2.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.blocks.0.conv2.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.blocks.1.conv1.conv.weight - torch.Size([384, 384, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.blocks.1.conv1.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.blocks.1.conv1.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.blocks.1.conv2.conv.weight - torch.Size([384, 384, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.blocks.1.conv2.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.1.blocks.1.conv2.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.2.conv1.conv.weight - torch.Size([384, 768, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.2.conv1.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.2.conv1.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.2.conv2.conv.weight - torch.Size([768, 1536, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.2.conv2.bn.weight - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.stage4_2.2.conv2.bn.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.pos_embed_r - torch.Size([1, 64, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.pos_embed_t - torch.Size([1, 64, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.patch_embed.proj.weight - torch.Size([384, 384, 4, 5]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.patch_embed.proj.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.in_proj_r.weight - torch.Size([1536, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.in_proj_t.weight - torch.Size([1536, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.conv2d_r.0.weight - torch.Size([768, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.conv2d_r.0.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.conv2d_r.1.weight - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.conv2d_r.1.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.conv2d_t.0.weight - torch.Size([768, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.conv2d_t.0.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.conv2d_t.1.weight - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.conv2d_t.1.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.SSM_r_f.A_log - torch.Size([768, 128]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.SSM_r_f.D - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.SSM_r_f.x_proj.weight - torch.Size([304, 768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.SSM_r_f.dt_proj.weight - torch.Size([768, 48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.SSM_r_f.dt_proj.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.SSM_r_f.out_norm.weight - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.SSM_r_f.out_norm.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.SSM_t_f.A_log - torch.Size([768, 128]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.SSM_t_f.D - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.SSM_t_f.x_proj.weight - torch.Size([304, 768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.SSM_t_f.dt_proj.weight - torch.Size([768, 48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.SSM_t_f.dt_proj.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.SSM_t_f.out_norm.weight - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.SSM_t_f.out_norm.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mamba_fusion_stage.out_proj.weight - torch.Size([384, 768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.pos_emb_vis - torch.Size([1, 64, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.pos_emb_ir - torch.Size([1, 64, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.vis_pool_weights.w1 - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.vis_pool_weights.w2 - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.ir_pool_weights.w1 - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.ir_pool_weights.w2 - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.ln1_vis.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.ln1_vis.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.ln1_ir.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.ln1_ir.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.que_proj_vis.weight - torch.Size([384, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.que_proj_vis.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.key_proj_vis.weight - torch.Size([384, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.key_proj_vis.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.val_proj_vis.weight - torch.Size([384, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.val_proj_vis.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.que_proj_ir.weight - torch.Size([384, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.que_proj_ir.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.key_proj_ir.weight - torch.Size([384, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.key_proj_ir.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.val_proj_ir.weight - torch.Size([384, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.val_proj_ir.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.crossatt.out_proj_vis.weight - torch.Size([384, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.crossatt.out_proj_vis.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.crossatt.out_proj_ir.weight - torch.Size([384, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.crossatt.out_proj_ir.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.ln2_vis.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.ln2_vis.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.ln2_ir.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.ln2_ir.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.mlp_vis.0.weight - torch.Size([1536, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.mlp_vis.0.bias - torch.Size([1536]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.mlp_vis.2.weight - torch.Size([384, 1536]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.mlp_vis.2.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.mlp_ir.0.weight - torch.Size([1536, 384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.mlp_ir.0.bias - torch.Size([1536]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.mlp_ir.2.weight - torch.Size([384, 1536]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.mlp_ir.2.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.coef_att_vis.bias - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.coef_mlp_vis.bias - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.coef_att_ir.bias - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.crosstransformer.0.coef_mlp_ir.bias - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.out_fusion_module.conv1x1_out.conv.weight - torch.Size([384, 768, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.out_fusion_module.conv1x1_out.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.block.out_fusion_module.conv1x1_out.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.mw.fc1.weight - torch.Size([24, 768, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.mw.fc1.bias - torch.Size([24]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.mw.fc2.weight - torch.Size([768, 24, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.transformer_fusion_stage.mw.fc2.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.out_fusion_module.conv1x1_out.conv.weight - torch.Size([384, 768, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.out_fusion_module.conv1x1_out.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.out_fusion_module.conv1x1_out.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mw.fc1.weight - torch.Size([24, 768, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mw.fc1.bias - torch.Size([24]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mw.fc2.weight - torch.Size([768, 24, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.fusion_block4.mw.fc2.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module4.conv_ir.weight - torch.Size([768, 768, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module4.conv_vis.weight - torch.Size([768, 768, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module4.se.1.weight - torch.Size([48, 768, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module4.se.1.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module4.se.3.weight - torch.Size([768, 48, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+backbone.head_input_module4.se.3.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.0.main_conv.conv.weight - torch.Size([384, 1152, 1, 1]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.top_down_layers.0.main_conv.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.0.main_conv.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.0.final_conv.conv.weight - torch.Size([384, 768, 1, 1]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.top_down_layers.0.final_conv.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.0.final_conv.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.0.blocks.0.conv1.conv.weight - torch.Size([192, 192, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.top_down_layers.0.blocks.0.conv1.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.0.blocks.0.conv1.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.0.blocks.0.conv2.conv.weight - torch.Size([192, 192, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.top_down_layers.0.blocks.0.conv2.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.0.blocks.0.conv2.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.0.blocks.1.conv1.conv.weight - torch.Size([192, 192, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.top_down_layers.0.blocks.1.conv1.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.0.blocks.1.conv1.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.0.blocks.1.conv2.conv.weight - torch.Size([192, 192, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.top_down_layers.0.blocks.1.conv2.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.0.blocks.1.conv2.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.1.main_conv.conv.weight - torch.Size([192, 576, 1, 1]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.top_down_layers.1.main_conv.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.1.main_conv.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.1.final_conv.conv.weight - torch.Size([192, 384, 1, 1]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.top_down_layers.1.final_conv.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.1.final_conv.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.1.blocks.0.conv1.conv.weight - torch.Size([96, 96, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.top_down_layers.1.blocks.0.conv1.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.1.blocks.0.conv1.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.1.blocks.0.conv2.conv.weight - torch.Size([96, 96, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.top_down_layers.1.blocks.0.conv2.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.1.blocks.0.conv2.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.1.blocks.1.conv1.conv.weight - torch.Size([96, 96, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.top_down_layers.1.blocks.1.conv1.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.1.blocks.1.conv1.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.1.blocks.1.conv2.conv.weight - torch.Size([96, 96, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.top_down_layers.1.blocks.1.conv2.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.top_down_layers.1.blocks.1.conv2.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.downsample_layers.0.conv.weight - torch.Size([192, 192, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.downsample_layers.0.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.downsample_layers.0.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.downsample_layers.1.conv.weight - torch.Size([384, 384, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.downsample_layers.1.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.downsample_layers.1.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.0.main_conv.conv.weight - torch.Size([384, 576, 1, 1]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.bottom_up_layers.0.main_conv.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.0.main_conv.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.0.final_conv.conv.weight - torch.Size([384, 768, 1, 1]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.bottom_up_layers.0.final_conv.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.0.final_conv.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.0.blocks.0.conv1.conv.weight - torch.Size([192, 192, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.bottom_up_layers.0.blocks.0.conv1.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.0.blocks.0.conv1.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.0.blocks.0.conv2.conv.weight - torch.Size([192, 192, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.bottom_up_layers.0.blocks.0.conv2.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.0.blocks.0.conv2.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.0.blocks.1.conv1.conv.weight - torch.Size([192, 192, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.bottom_up_layers.0.blocks.1.conv1.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.0.blocks.1.conv1.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.0.blocks.1.conv2.conv.weight - torch.Size([192, 192, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.bottom_up_layers.0.blocks.1.conv2.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.0.blocks.1.conv2.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.1.main_conv.conv.weight - torch.Size([768, 1152, 1, 1]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.bottom_up_layers.1.main_conv.bn.weight - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.1.main_conv.bn.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.1.final_conv.conv.weight - torch.Size([768, 1536, 1, 1]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.bottom_up_layers.1.final_conv.bn.weight - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.1.final_conv.bn.bias - torch.Size([768]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.1.blocks.0.conv1.conv.weight - torch.Size([384, 384, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.bottom_up_layers.1.blocks.0.conv1.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.1.blocks.0.conv1.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.1.blocks.0.conv2.conv.weight - torch.Size([384, 384, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.bottom_up_layers.1.blocks.0.conv2.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.1.blocks.0.conv2.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.1.blocks.1.conv1.conv.weight - torch.Size([384, 384, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.bottom_up_layers.1.blocks.1.conv1.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.1.blocks.1.conv1.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.1.blocks.1.conv2.conv.weight - torch.Size([384, 384, 3, 3]): 
+Initialized by user-defined `init_weights` in YOLOv8PAFPN  
+
+neck.bottom_up_layers.1.blocks.1.conv2.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+neck.bottom_up_layers.1.blocks.1.conv2.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.0.0.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.0.0.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.0.0.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.0.1.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.0.1.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.0.1.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.0.2.weight - torch.Size([5, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.0.2.bias - torch.Size([5]): 
+Initialized by user-defined `init_weights` in YOLOv8HeadModule  
+
+bbox_head.head_module.cls_preds.1.0.conv.weight - torch.Size([192, 384, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.1.0.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.1.0.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.1.1.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.1.1.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.1.1.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.1.2.weight - torch.Size([5, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.1.2.bias - torch.Size([5]): 
+Initialized by user-defined `init_weights` in YOLOv8HeadModule  
+
+bbox_head.head_module.cls_preds.2.0.conv.weight - torch.Size([192, 768, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.2.0.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.2.0.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.2.1.conv.weight - torch.Size([192, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.2.1.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.2.1.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.2.2.weight - torch.Size([5, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.cls_preds.2.2.bias - torch.Size([5]): 
+Initialized by user-defined `init_weights` in YOLOv8HeadModule  
+
+bbox_head.head_module.reg_preds.0.0.conv.weight - torch.Size([64, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.0.0.bn.weight - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.0.0.bn.bias - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.0.1.conv.weight - torch.Size([64, 64, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.0.1.bn.weight - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.0.1.bn.bias - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.0.2.weight - torch.Size([64, 64, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.0.2.bias - torch.Size([64]): 
+Initialized by user-defined `init_weights` in YOLOv8HeadModule  
+
+bbox_head.head_module.reg_preds.1.0.conv.weight - torch.Size([64, 384, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.1.0.bn.weight - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.1.0.bn.bias - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.1.1.conv.weight - torch.Size([64, 64, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.1.1.bn.weight - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.1.1.bn.bias - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.1.2.weight - torch.Size([64, 64, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.1.2.bias - torch.Size([64]): 
+Initialized by user-defined `init_weights` in YOLOv8HeadModule  
+
+bbox_head.head_module.reg_preds.2.0.conv.weight - torch.Size([64, 768, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.2.0.bn.weight - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.2.0.bn.bias - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.2.1.conv.weight - torch.Size([64, 64, 3, 3]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.2.1.bn.weight - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.2.1.bn.bias - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.2.2.weight - torch.Size([64, 64, 1, 1]): 
+The value is the same before and after calling `init_weights` of YOLODualNeckDetector  
+
+bbox_head.head_module.reg_preds.2.2.bias - torch.Size([64]): 
+Initialized by user-defined `init_weights` in YOLOv8HeadModule  
+2025/06/24 12:49:15 - mmengine - INFO - Auto resumed from the latest checkpoint /data/nl/Mamba2Spectral/work_dirs/DroneVehicle/2025_06_22/yolov8_mambatransformer_lightfusion/epoch_163.pth.
+2025/06/24 12:49:16 - mmengine - INFO - Load checkpoint from /data/nl/Mamba2Spectral/work_dirs/DroneVehicle/2025_06_22/yolov8_mambatransformer_lightfusion/epoch_163.pth
+2025/06/24 12:49:16 - mmengine - WARNING - `resume_param_scheduler` is True but `self.param_schedulers` is None, so skip resuming parameter schedulers
+2025/06/24 12:49:16 - mmengine - INFO - resumed epoch: 163, iter: 65200
+2025/06/24 12:49:16 - mmengine - WARNING - "FileClient" will be deprecated in future. Please use io functions in https://mmengine.readthedocs.io/en/latest/api/fileio.html#file-io
+2025/06/24 12:49:16 - mmengine - WARNING - "HardDiskBackend" is the alias of "LocalBackend" and the former will be deprecated in future.
+2025/06/24 12:49:16 - mmengine - INFO - Checkpoints will be saved to /data/nl/Mamba2Spectral/work_dirs/DroneVehicle/2025_06_22/yolov8_mambatransformer_lightfusion.
+2025/06/24 12:50:51 - mmengine - INFO - Epoch(train) [164][ 50/400]  base_lr: 1.0000e-02 lr: 1.9810e-03  eta: 7:46:30  time: 1.8977  data_time: 0.0396  memory: 18685  grad_norm: 17.0452  loss: 18.9002  loss_cls: 3.6708  loss_bbox: 7.3449  loss_dfl: 7.8846
+2025/06/24 12:53:38 - mmengine - INFO - Epoch(train) [164][100/400]  base_lr: 1.0000e-02 lr: 1.9810e-03  eta: 10:40:37  time: 3.3319  data_time: 0.0103  memory: 10909  grad_norm: 16.4145  loss: 18.7175  loss_cls: 3.5322  loss_bbox: 7.3239  loss_dfl: 7.8614
+2025/06/24 12:56:24 - mmengine - INFO - Epoch(train) [164][150/400]  base_lr: 1.0000e-02 lr: 1.9810e-03  eta: 11:36:43  time: 3.3308  data_time: 0.0108  memory: 11283  grad_norm: 14.6125  loss: 18.5125  loss_cls: 3.4462  loss_bbox: 7.3233  loss_dfl: 7.7430
+2025/06/24 12:59:11 - mmengine - INFO - Epoch(train) [164][200/400]  base_lr: 1.0000e-02 lr: 1.9810e-03  eta: 12:03:09  time: 3.3270  data_time: 0.0108  memory: 10914  grad_norm: 15.4007  loss: 18.6550  loss_cls: 3.5047  loss_bbox: 7.2868  loss_dfl: 7.8634
+2025/06/24 13:01:57 - mmengine - INFO - Epoch(train) [164][250/400]  base_lr: 1.0000e-02 lr: 1.9810e-03  eta: 12:17:47  time: 3.3249  data_time: 0.0098  memory: 10743  grad_norm: 15.8008  loss: 18.8353  loss_cls: 3.5568  loss_bbox: 7.4275  loss_dfl: 7.8510
+2025/06/24 13:04:43 - mmengine - INFO - Epoch(train) [164][300/400]  base_lr: 1.0000e-02 lr: 1.9810e-03  eta: 12:26:31  time: 3.3221  data_time: 0.0077  memory: 10866  grad_norm: 16.4271  loss: 18.6906  loss_cls: 3.6114  loss_bbox: 7.2585  loss_dfl: 7.8207
+2025/06/24 13:07:29 - mmengine - INFO - Epoch(train) [164][350/400]  base_lr: 1.0000e-02 lr: 1.9810e-03  eta: 12:32:04  time: 3.3250  data_time: 0.0079  memory: 10877  grad_norm: 16.4963  loss: 18.8886  loss_cls: 3.5816  loss_bbox: 7.3944  loss_dfl: 7.9125
+2025/06/24 13:10:16 - mmengine - INFO - Exp name: yolov8_mambatransformer_lightfusion_20250624_124906
+2025/06/24 13:10:16 - mmengine - INFO - Epoch(train) [164][400/400]  base_lr: 1.0000e-02 lr: 1.9810e-03  eta: 12:35:30  time: 3.3243  data_time: 0.0075  memory: 10887  grad_norm: 16.2758  loss: 18.9304  loss_cls: 3.6271  loss_bbox: 7.4081  loss_dfl: 7.8952
+2025/06/24 13:10:16 - mmengine - INFO - Saving checkpoint at 164 epochs
+2025/06/24 13:10:18 - mmengine - WARNING - `save_param_scheduler` is True but `self.param_schedulers` is None, so skip saving parameter schedulers
+2025/06/24 13:10:31 - mmengine - INFO - Epoch(val) [164][ 50/800]    eta: 0:02:03  time: 0.1644  data_time: 0.0028  memory: 1043  
+2025/06/24 13:10:35 - mmengine - INFO - Epoch(val) [164][100/800]    eta: 0:01:31  time: 0.0982  data_time: 0.0005  memory: 1018  
+2025/06/24 13:10:40 - mmengine - INFO - Epoch(val) [164][150/800]    eta: 0:01:18  time: 0.0981  data_time: 0.0004  memory: 1018  
+2025/06/24 13:10:45 - mmengine - INFO - Epoch(val) [164][200/800]    eta: 0:01:08  time: 0.0964  data_time: 0.0004  memory: 1018  
+2025/06/24 13:10:50 - mmengine - INFO - Epoch(val) [164][250/800]    eta: 0:01:01  time: 0.1026  data_time: 0.0005  memory: 1018  
+2025/06/24 13:10:56 - mmengine - INFO - Epoch(val) [164][300/800]    eta: 0:00:55  time: 0.1034  data_time: 0.0005  memory: 1018  
+2025/06/24 13:11:01 - mmengine - INFO - Epoch(val) [164][350/800]    eta: 0:00:49  time: 0.1099  data_time: 0.0005  memory: 1018  
+2025/06/24 13:11:06 - mmengine - INFO - Epoch(val) [164][400/800]    eta: 0:00:43  time: 0.0989  data_time: 0.0005  memory: 1018  
+2025/06/24 13:11:12 - mmengine - INFO - Epoch(val) [164][450/800]    eta: 0:00:38  time: 0.1132  data_time: 0.0005  memory: 1018  
+2025/06/24 13:11:17 - mmengine - INFO - Epoch(val) [164][500/800]    eta: 0:00:32  time: 0.0984  data_time: 0.0004  memory: 1018  
+2025/06/24 13:11:22 - mmengine - INFO - Epoch(val) [164][550/800]    eta: 0:00:26  time: 0.0965  data_time: 0.0004  memory: 1018  
+2025/06/24 13:11:26 - mmengine - INFO - Epoch(val) [164][600/800]    eta: 0:00:21  time: 0.0978  data_time: 0.0004  memory: 1018  
+2025/06/24 13:11:31 - mmengine - INFO - Epoch(val) [164][650/800]    eta: 0:00:15  time: 0.0995  data_time: 0.0006  memory: 1018  
+2025/06/24 13:11:37 - mmengine - INFO - Epoch(val) [164][700/800]    eta: 0:00:10  time: 0.1125  data_time: 0.0005  memory: 1018  
+2025/06/24 13:11:43 - mmengine - INFO - Epoch(val) [164][750/800]    eta: 0:00:05  time: 0.1094  data_time: 0.0004  memory: 1018  
+2025/06/24 13:11:48 - mmengine - INFO - Epoch(val) [164][800/800]    eta: 0:00:00  time: 0.1028  data_time: 0.0004  memory: 1018  
+2025/06/24 13:11:49 - mmengine - INFO - Evaluating bbox...
+2025/06/24 13:12:05 - mmengine - INFO - 
++-------------+-------+--------+--------+-------+-------+-------+
+| category    | mAP   | mAP_50 | mAP_75 | mAP_s | mAP_m | mAP_l |
++-------------+-------+--------+--------+-------+-------+-------+
+| car         | 0.702 | 0.966  | 0.858  | 0.485 | 0.732 | 0.0   |
+| truck       | 0.533 | 0.754  | 0.647  | 0.056 | 0.527 | 0.595 |
+| bus         | 0.765 | 0.963  | 0.889  | 0.0   | 0.731 | 0.833 |
+| van         | 0.506 | 0.699  | 0.631  | 0.215 | 0.503 | 0.833 |
+| freight_car | 0.498 | 0.694  | 0.602  | 0.085 | 0.489 | 0.574 |
++-------------+-------+--------+--------+-------+-------+-------+
+2025/06/24 13:12:05 - mmengine - INFO - bbox_mAP_copypaste: 0.601 0.815 0.725 0.168 0.596 0.567
+2025/06/24 13:12:05 - mmengine - INFO - Epoch(val) [164][800/800]    coco/car_precision: 0.7020  coco/truck_precision: 0.5330  coco/bus_precision: 0.7650  coco/van_precision: 0.5060  coco/freight_car_precision: 0.4980  coco/bbox_mAP: 0.6010  coco/bbox_mAP_50: 0.8150  coco/bbox_mAP_75: 0.7250  coco/bbox_mAP_s: 0.1680  coco/bbox_mAP_m: 0.5960  coco/bbox_mAP_l: 0.5670  data_time: 0.0006  time: 0.1064
+2025/06/24 13:13:43 - mmengine - INFO - Epoch(train) [165][ 50/400]  base_lr: 1.0000e-02 lr: 1.9315e-03  eta: 12:01:28  time: 1.9659  data_time: 0.0320  memory: 10896  grad_norm: 17.2170  loss: 18.7345  loss_cls: 3.6365  loss_bbox: 7.2574  loss_dfl: 7.8405
+2025/06/24 13:15:01 - mmengine - INFO - Epoch(train) [165][100/400]  base_lr: 1.0000e-02 lr: 1.9315e-03  eta: 11:24:19  time: 1.5635  data_time: 0.0097  memory: 10964  grad_norm: 18.1559  loss: 18.8717  loss_cls: 3.6338  loss_bbox: 7.2688  loss_dfl: 7.9691
+2025/06/24 13:16:19 - mmengine - INFO - Epoch(train) [165][150/400]  base_lr: 1.0000e-02 lr: 1.9315e-03  eta: 10:53:40  time: 1.5621  data_time: 0.0099  memory: 10992  grad_norm: 16.6763  loss: 18.8731  loss_cls: 3.60
